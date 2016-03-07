@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String SERVER_IP = "http://192.168.1.150/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
+
     public final static int REQUEST_CODE_LOGIN = 0;
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
     public final static String KEY_SP_HAS_USERNAME = "has_username";
@@ -65,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_LOGIN && resultCode == RESULT_OK){
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String username = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
+            String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
 
-            if(username != null){
+            if(json != null){
                 try {
-                    bindGreetingView(username);
+                    bindGreetingView(json);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

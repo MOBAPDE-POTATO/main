@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mikogarcia.findit.model.Account;
 
@@ -33,8 +34,8 @@ import java.io.IOException;
 public class LoginActivity extends AppCompatActivity {
 
     public static final int PASSWORD_LENGTH = 6;
-    public static final String LOGIN_URL = "/FindIT-Web-Service/login.php";
-    public static final String SERVER_IP = "http://192.168.1.150";
+    public static final String LOGIN_URL = "login.php";
+    public static final String ERROR_TAG = "ERROR: ";
 
     // UI references.
     private EditText et_email;
@@ -93,6 +94,10 @@ public class LoginActivity extends AppCompatActivity {
         login();
     }
 
+    public void checkError(String s) {
+        Toast.makeText(LoginActivity.this, s, Toast.LENGTH_SHORT).show();
+    }
+
     /**
      *  Assuming that the credentials are all valid
      */
@@ -100,9 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = et_email.getText().toString();
         String pass = et_pass.getText().toString();
 
-        new LogInHelper().execute("crymehonions@gmail.com", "1234");
-
-        finish();
+        new LogInHelper().execute(email, pass);
     }
 
     private boolean isEmailValid(String email) {
@@ -123,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
             String pass = params[1];
 
             try {
-                Document doc = Jsoup.connect(SERVER_IP+LOGIN_URL)
+                Document doc = Jsoup.connect(MainActivity.SERVER_IP+LOGIN_URL)
                         .data(Account.COLUMN_EMAIL, email)
                         .data(Account.COLUMN_PASSWORD, pass)
                         .post();
@@ -148,10 +151,16 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            Log.i("LOGIN:", s);
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-            editor.putString(MainActivity.SP_ACCOUNT_JSON_KEY, s);
-            editor.commit();
+            if(s.startsWith(ERROR_TAG)) {
+                checkError(s);
+            } else {
+
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+                editor.putString(MainActivity.SP_ACCOUNT_JSON_KEY, s);
+                editor.commit();
+
+                finish();
+            }
         }
     }
 }
