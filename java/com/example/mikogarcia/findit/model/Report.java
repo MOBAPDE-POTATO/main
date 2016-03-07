@@ -1,6 +1,12 @@
 package com.example.mikogarcia.findit.model;
 
-import java.util.Date;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Miko Garcia on 3/6/2016.
@@ -32,9 +38,9 @@ public class Report {
     private int reportType;
     private boolean claimed;
     private Date logDate;
-    private Feature[] features;
+    private ArrayList<Feature> features;
 
-    public Report(int id, String item, String place, Date date, Feature[] features,
+    public Report(int id, String item, String place, Date date, ArrayList features,
                   int reportType, int itemType, boolean claimed, Date logDate) {
         this.id = id;
         this.itemName = item;
@@ -48,13 +54,33 @@ public class Report {
     }
 
     public Report(String item, String place, Date date,
-                  int reportType, int itemType, Feature[] features) {
+                  int reportType, int itemType, ArrayList features) {
         this.itemName = item;
         this.place = place;
         this.date = date;
         this.reportType = reportType;
         this.itemType = itemType;
         this.features = features;
+    }
+
+    public Report(JSONObject json) throws JSONException {
+        this.id = json.getInt(COLUMN_ID);
+        this.itemName = json.getString(COLUMN_ITEM_NAME);
+        this.place = json.getString(COLUMN_REPORT_PLACE);
+        this.date = Date.valueOf(json.getString(COLUMN_REPORT_DATE));
+        this.itemType = json.getInt(COLUMN_ITEM_TYPE);
+        this.reportType = json.getInt(COLUMN_REPORT_TYPE);
+        this.claimed = json.getBoolean(COLUMN_CLAIMED);
+        this.logDate = Date.valueOf(json.getString(COLUMN_LOG_DATE));
+        this.features = new ArrayList<>();
+
+        JSONArray array = json.getJSONArray(Feature.TABLE_NAME);
+
+        for(int i = 0; i < array.length(); i++) {
+            JSONObject feat = array.getJSONObject(i);
+
+            this.features.add(new Feature(feat));
+        }
     }
 
     public int getId() {
@@ -121,11 +147,13 @@ public class Report {
         this.logDate = logDate;
     }
 
-    public Feature[] getFeatures() {
-        return features;
+    public Iterator getFeatures() {
+        return features.iterator();
     }
 
-    public void setFeatures(Feature[] features) {
-        this.features = features;
+    public void addFeature(Feature feature) {
+        this.features.add(feature);
     }
+
+    public void deleteFeature(Feature feature) { this.features.remove(feature); }
 }
