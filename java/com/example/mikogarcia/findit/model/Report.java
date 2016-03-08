@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 /**
@@ -40,6 +42,8 @@ public class Report {
     private Date logDate;
     private ArrayList<Feature> features;
 
+    private String formalDate;
+
     public Report(int id, String item, String place, Date date, ArrayList features,
                   int reportType, int itemType, boolean claimed, Date logDate) {
         this.id = id;
@@ -51,6 +55,8 @@ public class Report {
         this.logDate = logDate;
         this.claimed = claimed;
         this.features = features;
+
+        setReportDateString(date);
     }
 
     public Report(String item, String place, Date date,
@@ -61,6 +67,8 @@ public class Report {
         this.reportType = reportType;
         this.itemType = itemType;
         this.features = features;
+
+        setReportDateString(date);
     }
 
     public Report(JSONObject json) throws JSONException {
@@ -85,7 +93,29 @@ public class Report {
         }catch (Exception e) {
             // This just means walang features ung report
         }
+
+        setReportDateString(date);
     }
+
+    public String getReportDateString() {
+        return formalDate;
+    }
+
+    public void setReportDateString(Date date) {
+        final String[] months = new String[]{"January", "February", "March", "April", "May",
+                "June", "July", "August", "September", "October",
+                "November", "December"};
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        this.formalDate = months[month] + " " + day + ", " + year;
+    }
+
 
     public int getId() {
         return id;

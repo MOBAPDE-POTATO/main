@@ -83,16 +83,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i =  new Intent();
-                i.setClass(getBaseContext(),RegisterActivity.class);
-                startActivity(i);
-
-                setResult(RESULT_OK);
-                finish();
+                i.setClass(getBaseContext(), RegisterActivity.class);
+                startActivityForResult(i, MainActivity.REQUEST_CODE_REGISTER);
             }
 
         });
-
-
     }
 
     public void attemptLogin() {
@@ -127,6 +122,14 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > PASSWORD_LENGTH;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == MainActivity.REQUEST_CODE_REGISTER && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     class LogInHelper extends AsyncTask<String, Void, String> {

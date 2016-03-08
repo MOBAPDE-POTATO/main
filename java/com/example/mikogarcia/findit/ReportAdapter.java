@@ -41,7 +41,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         final Report report = reports.get(position);
 
         holder.tvItem.setText(report.getItemName());
-        holder.tvDate.setText(report.getDate().toString());
+        holder.tvDate.setText(report.getReportDateString());
         holder.tvPlace.setText(report.getPlace());
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override

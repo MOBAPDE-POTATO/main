@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
 
     public final static int REQUEST_CODE_LOGIN = 0;
+    public final static int REQUEST_CODE_REGISTER = 1;
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
-    public final static String KEY_SP_HAS_USERNAME = "has_username";
 
     private RecyclerView reportsList;
 
@@ -108,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Report> reports = new ArrayList<>();
 
         for(int i = 0; i < j_rep.length(); i++) {
-            reports.add(new Report(j_rep.getJSONObject(i)));
+            Report report = new Report(j_rep.getJSONObject(i));
+
+            reports.add(report);
         }
 
         // TODO: 3/8/2016 SET ADAPTER'S LIST TO reports
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkError(String s) {
-        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
     }
 
     class ViewReportHelper extends AsyncTask<Void, Void, String> {
@@ -133,15 +135,6 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             try {
-//                Document doc = Jsoup.connect(SERVER_IP + GET_REPORTS_URL)
-//                        .data(Account.COLUMN_ID, String.valueOf(account.getId()))
-//                        .get();
-//
-//                String result = doc.body().text();
-//                Log.i("HTML", result);
-//
-//                return result;
-
                 OkHttpClient client = new OkHttpClient();
                 RequestBody reqBody = new FormBody.Builder()
                         .add(Account.COLUMN_ID, String.valueOf(account.getId()))
