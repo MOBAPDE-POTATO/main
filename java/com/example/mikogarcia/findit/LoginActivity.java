@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 i.setClass(getBaseContext(),RegisterActivity.class);
                 startActivity(i);
 
+                setResult(RESULT_OK);
                 finish();
             }
 
@@ -168,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(MainActivity.SP_ACCOUNT_JSON_KEY, s);
                 editor.commit();
 
+                setResult(RESULT_OK);
                 finish();
             }
         }
