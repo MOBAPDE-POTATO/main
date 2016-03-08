@@ -70,16 +70,20 @@ public class Report {
         this.date = Date.valueOf(json.getString(COLUMN_REPORT_DATE));
         this.itemType = json.getInt(COLUMN_ITEM_TYPE);
         this.reportType = json.getInt(COLUMN_REPORT_TYPE);
-        this.claimed = json.getBoolean(COLUMN_CLAIMED);
+        this.claimed = json.getInt(COLUMN_CLAIMED) == 1 ? true : false;
         this.logDate = Date.valueOf(json.getString(COLUMN_LOG_DATE));
         this.features = new ArrayList<>();
 
-        JSONArray array = json.getJSONArray(Feature.TABLE_NAME);
+        try {
+            JSONArray array = json.getJSONArray(Feature.TABLE_NAME);
 
-        for(int i = 0; i < array.length(); i++) {
-            JSONObject feat = array.getJSONObject(i);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject feat = array.getJSONObject(i);
 
-            this.features.add(new Feature(feat));
+                this.features.add(new Feature(feat));
+            }
+        }catch (Exception e) {
+            // This just means walang features ung report
         }
     }
 

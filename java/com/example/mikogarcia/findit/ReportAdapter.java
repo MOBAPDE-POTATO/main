@@ -23,6 +23,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         this.reports = reports;
     }
 
+    public ReportAdapter() {
+        this.reports = new ArrayList<>();
+    }
+
+
     @Override
     public ReportHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -57,6 +62,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
 
     public void addReport(Report report) {
         reports.add(report);
+    }
+
+    public void setReportList(ArrayList<Report> reports) {
+        this.reports = reports;
+        notifyDataSetChanged();
     }
 
     public class ReportHolder extends RecyclerView.ViewHolder {

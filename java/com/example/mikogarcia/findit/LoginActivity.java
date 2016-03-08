@@ -29,6 +29,12 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -139,17 +145,25 @@ public class LoginActivity extends AppCompatActivity {
             String pass = params[1];
 
             try {
-                Document doc = Jsoup.connect(MainActivity.SERVER_IP+LOGIN_URL)
-                        .data(Account.COLUMN_EMAIL, email)
-                        .data(Account.COLUMN_PASSWORD, pass)
-                        .post();
+                OkHttpClient client = new OkHttpClient();
+                RequestBody requestBody = new FormBody.Builder()
+                        .add(Account.COLUMN_EMAIL, email)
+                        .add(Account.COLUMN_PASSWORD, pass)
+                        .build();
+                Request request = new Request.Builder()
+                        .header("Content-type", "application/json")
+                        .url(MainActivity.SERVER_IP + LOGIN_URL)
+                        .post(requestBody)
+                        .build();
 
-                String result = doc.body().text();
+                Response response = client.newCall(request).execute();
+
+                String result = response.body().string();
                 Log.i("HTML", result);
 
                 return result;
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

@@ -17,6 +17,12 @@ import com.example.mikogarcia.findit.model.Account;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class RegisterActivity extends AppCompatActivity {
 
     public static final String REGISTER_URL = "register.php";
@@ -90,14 +96,22 @@ public class RegisterActivity extends AppCompatActivity {
             String pass = params[3];
 
             try {
-                Document doc = Jsoup.connect(MainActivity.SERVER_IP+REGISTER_URL)
-                        .data(Account.COLUMN_FNAME, fname)
-                        .data(Account.COLUMN_LNAME, lname)
-                        .data(Account.COLUMN_EMAIL, email)
-                        .data(Account.COLUMN_PASSWORD, pass)
-                        .post();
+                OkHttpClient client = new OkHttpClient();
+                RequestBody requestBody = new FormBody.Builder()
+                        .add(Account.COLUMN_FNAME, fname)
+                        .add(Account.COLUMN_LNAME, lname)
+                        .add(Account.COLUMN_EMAIL, email)
+                        .add(Account.COLUMN_PASSWORD, pass)
+                        .build();
+                Request request = new Request.Builder()
+                        .header("Content-type", "application/json")
+                        .url(MainActivity.SERVER_IP + REGISTER_URL)
+                        .post(requestBody)
+                        .build();
 
-                String result = doc.body().text();
+                Response response = client.newCall(request).execute();
+
+                String result = response.body().string();
 
                 Log.i("HTML", result);
                 return result;
