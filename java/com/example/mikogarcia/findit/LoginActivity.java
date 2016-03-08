@@ -89,9 +89,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void attemptLogin() {
+        String email = et_email.getText().toString();
+        String pass = et_pass.getText().toString();
+
+        // TODO: 3/8/2016 DO ERROR CHECKING
+        // FIELDS ARE FILLED
+        // VALID EMAIL
+        // VALID PASSWORD
 
         //WHEN ERROR CHECKING IS GUD
-        login();
+        login(email, pass);
     }
 
     public void checkError(String s) {
@@ -101,10 +108,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      *  Assuming that the credentials are all valid
      */
-    public void login() {
-        String email = et_email.getText().toString();
-        String pass = et_pass.getText().toString();
-
+    public void login(String email, String pass) {
         new LogInHelper().execute(email, pass);
     }
 
