@@ -70,7 +70,7 @@ public class Report {
         this.date = Date.valueOf(json.getString(COLUMN_REPORT_DATE));
         this.itemType = json.getInt(COLUMN_ITEM_TYPE);
         this.reportType = json.getInt(COLUMN_REPORT_TYPE);
-        this.claimed = json.getBoolean(COLUMN_CLAIMED);
+        this.claimed = json.getInt(COLUMN_CLAIMED) == 1 ? true : false;
         this.logDate = Date.valueOf(json.getString(COLUMN_LOG_DATE));
         this.features = new ArrayList<>();
 

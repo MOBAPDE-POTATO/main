@@ -45,6 +45,11 @@ public class Account {
         this.password = password;
     }
 
+    /**
+     * creates an Account Object using the values in the JSONObject
+     * @param json : The JSONObject containing the values
+     * @throws JSONException : If key is not found or type mismtach
+     */
     public Account(JSONObject json) throws JSONException {
         this.id = json.getInt(COLUMN_ID);
         this.fname = json.getString(COLUMN_FNAME);
