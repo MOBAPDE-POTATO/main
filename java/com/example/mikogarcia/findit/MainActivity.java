@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +25,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,50 +47,43 @@ public class MainActivity extends AppCompatActivity {
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
     public final static String KEY_SP_HAS_USERNAME = "has_username";
 
-    private TextView tvGreeting;
-    private TextView tvChangeUsername;
+    private RecyclerView reportsList;
 
     private Account account;
+    private ReportAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvGreeting = (TextView) findViewById(R.id.tv_username);
-        tvChangeUsername = (TextView) findViewById(R.id.tv_change_username);
-        tvChangeUsername.setText(Html.fromHtml("<u>Not you? Click here.</u>"));
+        reportsList = (RecyclerView) findViewById(R.id.report_list);
+        adapter = new ReportAdapter();
 
+        adapter.setmOnItemClickListener(new ReportAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(int id) {
+                // TODO: 3/8/2016 OPEN VIEW REPORT
+            }
+        });
+
+        reportsList.setAdapter(adapter);
+        reportsList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
+//        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
-        if(username != null){
+        String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
+        if(json != null){
             try {
-                bindGreetingView(username);
+                this.account = new Account(new JSONObject(json));
+                new ViewReportHelper().execute();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }else{
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
         }
-
-        tvChangeUsername.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(getBaseContext(), LoginActivity.class)
-                        .putExtra(KEY_SP_HAS_USERNAME, true), REQUEST_CODE_LOGIN);
-            }
-        });
-    }
-
-    private void bindGreetingView(String accJson) throws JSONException {
-        this.account = new Account(new JSONObject(accJson));
-
-        tvGreeting.setText("Greetings, " + account.getName() + "!");
-        new ViewReportHelper().execute();
-    }
-
-    public void checkError(String s) {
-        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -89,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
             if(json != null){
                 try {
-                    bindGreetingView(json);
+                    this.account = new Account(new JSONObject(json));
+                    new ViewReportHelper().execute();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // TODO: 3/8/2016 SET ADAPTER'S LIST TO reports
+        adapter.setReportList(reports);
+    }
+
+    public void checkError(String s) {
+        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
     }
 
     class ViewReportHelper extends AsyncTask<Void, Void, String> {
@@ -122,16 +133,33 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             try {
-                Document doc = Jsoup.connect(SERVER_IP + GET_REPORTS_URL)
-                        .data(Account.COLUMN_ID, String.valueOf(account.getId()))
-                        .get();
+//                Document doc = Jsoup.connect(SERVER_IP + GET_REPORTS_URL)
+//                        .data(Account.COLUMN_ID, String.valueOf(account.getId()))
+//                        .get();
+//
+//                String result = doc.body().text();
+//                Log.i("HTML", result);
+//
+//                return result;
 
-                String result = doc.body().text();
-                Log.i("HTML", result);
+                OkHttpClient client = new OkHttpClient();
+                RequestBody reqBody = new FormBody.Builder()
+                        .add(Account.COLUMN_ID, String.valueOf(account.getId()))
+                        .build();
 
-                return result;
+                Request request = new Request.Builder()
+                        .url(SERVER_IP + GET_REPORTS_URL)
+                        .header("Content-type", "application/json")
+                        .post(reqBody)
+                        .build();
 
-            } catch (IOException e) {
+                Response response = client.newCall(request).execute();
+
+                String jsonData = response.body().string();
+                Log.i("HTML", jsonData);
+                return jsonData;
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
