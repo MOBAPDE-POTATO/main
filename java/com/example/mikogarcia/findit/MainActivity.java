@@ -9,24 +9,41 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-    TextView tvGreeting;
-    TextView tvChangeUsername;
+import com.example.mikogarcia.findit.model.Account;
 
-    final static int REQUEST_CODE_LOGIN = 0;
-    final static String SP_KEY_USERNAME = "username";
-    final static String KEY_SP_HAS_USERNAME = "has_username";
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity {
+
+    public static final String SERVER_IP = "http://192.168.1.102/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
+
+    public final static int REQUEST_CODE_LOGIN = 0;
+    public final static String SP_ACCOUNT_JSON_KEY = "accJson";
+    public final static String KEY_SP_HAS_USERNAME = "has_username";
+
+    private TextView tvGreeting;
+    private TextView tvChangeUsername;
+
+    private Account account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         tvGreeting = (TextView) findViewById(R.id.tv_username);
         tvChangeUsername = (TextView) findViewById(R.id.tv_change_username);
         tvChangeUsername.setText(Html.fromHtml("<u>Not you? Click here.</u>"));
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = sharedPreferences.getString(SP_KEY_USERNAME, null);
+        String username = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
         if(username != null){
-            bindGreetingView(username);
+            try {
+                bindGreetingView(username);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }else{
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
         }
@@ -40,17 +57,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void bindGreetingView(String username) {
-        tvGreeting.setText("Greetings, " + username + "!");
+    private void bindGreetingView(String accJson) throws JSONException {
+        this.account = new Account(new JSONObject(accJson));
+
+        tvGreeting.setText("Greetings, " + account.getName() + "!");
 
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_LOGIN && resultCode == RESULT_OK){
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String username = sharedPreferences.getString(SP_KEY_USERNAME, null);
-            if(username != null){
-                bindGreetingView(username);
+            String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
+
+            if(json != null){
+                try {
+                    bindGreetingView(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

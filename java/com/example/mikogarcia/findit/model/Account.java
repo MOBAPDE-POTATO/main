@@ -1,5 +1,8 @@
 package com.example.mikogarcia.findit.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -13,7 +16,7 @@ public class Account {
     public static final String COLUMN_LNAME = "l_name";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
-    public static final String COLUMN_ACCOUNT_TYPE = "account_type";
+    public static final String COLUMN_ACCOUNT_TYPE = "acc_type";
 
     public static final int ACCOUNT_TYPE_ADMIN = 2;
     public static final int ACCOUNT_TYPE_USER = 1;
@@ -40,6 +43,19 @@ public class Account {
         this.lname = lname;
         this.email = email;
         this.password = password;
+    }
+
+    public Account(JSONObject json) throws JSONException {
+        this.id = json.getInt(COLUMN_ID);
+        this.fname = json.getString(COLUMN_FNAME);
+        this.lname = json.getString(COLUMN_LNAME);
+        this.email = json.getString(COLUMN_EMAIL);
+        this.password = json.getString(COLUMN_PASSWORD);
+        this.type = json.getInt(COLUMN_ACCOUNT_TYPE);
+    }
+
+    public String getName() {
+        return this.fname + " " + this.lname;
     }
 
     public int getId() {
@@ -89,4 +105,5 @@ public class Account {
     public void setType(int type) {
         this.type = type;
     }
+
 }

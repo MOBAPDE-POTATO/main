@@ -1,5 +1,8 @@
 package com.example.mikogarcia.findit.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Miko Garcia on 3/6/2016.
  */
@@ -15,6 +18,11 @@ public class Feature {
     public Feature(int id, String feat) {
         this.id = id;
         this.feat = feat;
+    }
+
+    public Feature(JSONObject json) throws JSONException {
+        this.id = json.getInt(COLUMN_ID);
+        this.feat = json.getString(COLUMN_FEATURE);
     }
 
     public Feature(String feat) {
