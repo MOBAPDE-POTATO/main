@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         this.account = new Account(new JSONObject(accJson));
 
         tvGreeting.setText("Greetings, " + account.getName() + "!");
-
+        new ViewReportHelper().execute();
     }
 
     public void checkError(String s) {
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadContent(String json) throws JSONException {
-        JSONArray j_rep = new JSONArray(json);
+        JSONArray j_rep = new JSONObject(json).getJSONArray(Report.TABLE_NAME);
         ArrayList<Report> reports = new ArrayList<>();
 
         for(int i = 0; i < j_rep.length(); i++) {
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: 3/8/2016 SET ADAPTER'S LIST TO reports
     }
 
-    class ViewReportHelper extends AsyncTask<String, Void, String> {
+    class ViewReportHelper extends AsyncTask<Void, Void, String> {
 
         ProgressDialog progressDialog;
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(Void... params) {
 
             try {
                 Document doc = Jsoup.connect(SERVER_IP + GET_REPORTS_URL)
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         .get();
 
                 String result = doc.body().text();
+                Log.i("HTML", result);
 
                 return result;
 
