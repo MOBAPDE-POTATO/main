@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String SERVER_IP = "http://192.168.1.150/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
+    public static final String SERVER_IP = "http://192.168.1.102/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
 
     public final static int REQUEST_CODE_LOGIN = 0;
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";

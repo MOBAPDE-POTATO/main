@@ -131,13 +131,8 @@ public class LoginActivity extends AppCompatActivity {
                         .data(Account.COLUMN_PASSWORD, pass)
                         .post();
 
-                Log.i("HTML", doc.toString());
-                Elements elements = doc.select("body");
-
-                String result = "";
-                for (Element e: elements) {
-                    result += e.text();
-                }
+                Log.i("HTML", doc.body().toString());
+                String result = doc.body().toString();
 
                 return result;
 
