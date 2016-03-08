@@ -36,13 +36,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final int PASSWORD_LENGTH = 6;
     public static final String LOGIN_URL = "login.php";
-    public static final String ERROR_TAG = "ERROR: ";
 
     // UI references.
     private EditText et_email;
     private EditText et_pass;
     private TextView createAccountView;
-    private View mProgressView;
     private View mLoginFormView;
 
     @Override
@@ -52,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
 
         createAccountView = (TextView)findViewById(R.id.createAccount);
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
         et_email = (EditText) findViewById(R.id.loginEmail);
         et_pass = (EditText) findViewById(R.id.loginPassword);
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -82,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i =  new Intent();
                 i.setClass(getBaseContext(),RegisterActivity.class);
                 startActivity(i);
+
+                finish();
             }
 
         });
@@ -144,8 +143,8 @@ public class LoginActivity extends AppCompatActivity {
                         .data(Account.COLUMN_PASSWORD, pass)
                         .post();
 
-                Log.i("HTML", doc.body().text());
                 String result = doc.body().text();
+                Log.i("HTML", result);
 
                 return result;
 
@@ -161,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
 
             progressDialog.dismiss();
 
-            if(s.startsWith(ERROR_TAG)) {
+            if(s.startsWith(MainActivity.ERROR_TAG)) {
                 checkError(s);
             } else {
 
