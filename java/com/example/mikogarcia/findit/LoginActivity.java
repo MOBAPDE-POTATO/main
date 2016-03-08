@@ -1,5 +1,6 @@
 package com.example.mikogarcia.findit;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -124,6 +125,14 @@ public class LoginActivity extends AppCompatActivity {
 
     class LogInHelper extends AsyncTask<String, Void, String> {
 
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(LoginActivity.this, "Logging In", "Please wait a moment", true);
+        }
+
         @Override
         protected String doInBackground(String... params) {
             String email = params[0];
@@ -135,8 +144,8 @@ public class LoginActivity extends AppCompatActivity {
                         .data(Account.COLUMN_PASSWORD, pass)
                         .post();
 
-                Log.i("HTML", doc.body().toString());
-                String result = doc.body().toString();
+                Log.i("HTML", doc.body().text());
+                String result = doc.body().text();
 
                 return result;
 
@@ -149,6 +158,8 @@ public class LoginActivity extends AppCompatActivity {
 
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            progressDialog.dismiss();
 
             if(s.startsWith(ERROR_TAG)) {
                 checkError(s);
