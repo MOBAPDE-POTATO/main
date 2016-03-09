@@ -28,6 +28,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -93,14 +95,73 @@ public class LoginActivity extends AppCompatActivity {
     public void attemptLogin() {
         String email = et_email.getText().toString();
         String pass = et_pass.getText().toString();
+        boolean checkemail = false;
+        boolean checkpass = false;
 
         // TODO: 3/8/2016 DO ERROR CHECKING
         // FIELDS ARE FILLED
-        // VALID EMAIL
-        // VALID PASSWORD
+        if(isEmpty(email) || isEmpty(pass)) {
 
+            if (isEmpty(email)) {
+                et_email.setError("Field must be filled");
+            }
+            if (isEmpty(pass)) {
+                et_pass.setError("Field must be filled");
+            }
+        }else {
+            // VALID EMAIL
+            if (!isValidEmail(email)) {
+                et_email.setError("Invalid Email address");
+                checkemail = false;
+            }else{
+                checkemail = true;
+            }
+            // VALID PASSWORD
+            if (!isPassLength(pass)) {
+                et_pass.setError("Password must be at least 6 alphanumeric characters");
+                checkpass = false;
+            }else{
+                if(!isPassAlpha(pass)){
+                    et_pass.setError("Password must only contain alphanumeric characters");
+                    checkpass = false;
+                }else{
+                    checkpass = true;
+                }
+
+            }
+
+        }
         //WHEN ERROR CHECKING IS GUD
-        login(email, pass);
+        if(checkemail == true && checkpass == true) {
+            login(email, pass);
+        }
+    }
+    private boolean isEmpty(String name) {
+        if (name.length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    private boolean isValidEmail(String email){
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    private boolean isPassLength(String pass) {
+        if (pass.length() > 5) {
+            return true;
+        }
+        return false;
+    }
+    private boolean isPassAlpha(String pass){
+        String ALPHANUMERIC = "^[a-zA-Z0-9]*$";
+        Pattern pattern = Pattern.compile(ALPHANUMERIC);
+        Matcher matcher = pattern.matcher(pass);
+        return matcher.matches();
     }
 
     public void checkError(String s) {
