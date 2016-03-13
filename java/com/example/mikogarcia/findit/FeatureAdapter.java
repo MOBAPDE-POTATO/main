@@ -1,12 +1,13 @@
-package com.example.mikogarcia.findit.model;
+package com.example.mikogarcia.findit;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.mikogarcia.findit.R;
+import com.example.mikogarcia.findit.model.Feature;
 
 import java.util.ArrayList;
 
@@ -37,15 +38,13 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
     }
 
     @Override
-    public void onBindViewHolder(FeatureHolder holder, int position) {
+    public void onBindViewHolder(FeatureHolder holder, final int position) {
         final Feature feature = features.get(position);
-
         holder.tvDesc.setText(feature.getFeat());
-
-        holder.container.setOnClickListener(new View.OnClickListener() {
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(feature.getId());
+                removeAt(position);
             }
         });
     }
@@ -61,22 +60,26 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
 
     public void addFeature(Feature feature) {
         features.add(feature);
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public void setFeatureList(ArrayList<Feature> features) {
         this.features = features;
         notifyDataSetChanged();
+
     }
 
     public class FeatureHolder extends RecyclerView.ViewHolder {
 
         TextView tvDesc;
-        View container;
+        Button btnDelete;
+        View feature_container;
 
         public FeatureHolder(View itemView) {
             super(itemView);
 
-            container = itemView.findViewById(R.id.container);
+            feature_container = itemView.findViewById(R.id.feature_container);
+            btnDelete = (Button) itemView.findViewById(R.id.btn_delete_desc);
             tvDesc = (TextView) itemView.findViewById(R.id.tv_desc);
 
         }
@@ -84,6 +87,14 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
 
     public interface OnItemClickListener {
         public void onItemClick(int id);
+    }
+    public void removeAt(int position) {
+        features.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, features.size());
+    }
+    public ArrayList<Feature> getFeatures(){
+        return features;
     }
 }
 

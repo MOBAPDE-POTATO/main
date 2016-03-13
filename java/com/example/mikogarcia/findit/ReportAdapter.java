@@ -43,7 +43,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         holder.tvItem.setText(report.getItemName());
         holder.tvDate.setText(report.getReportDateString());
         holder.tvPlace.setText(report.getPlace());
-        holder.container.setOnClickListener(new View.OnClickListener() {
+        holder.report_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClick(report.getId());
@@ -72,12 +72,12 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
     public class ReportHolder extends RecyclerView.ViewHolder {
 
         TextView tvItem, tvDate, tvPlace;
-        View container;
+        View report_container;
 
         public ReportHolder(View itemView) {
             super(itemView);
 
-            container = itemView.findViewById(R.id.container);
+            report_container = itemView.findViewById(R.id.report_container);
             tvItem = (TextView) itemView.findViewById(R.id.tv_item);
             tvDate = (TextView) itemView.findViewById(R.id.tv_date);
             tvPlace = (TextView) itemView.findViewById(R.id.tv_place);

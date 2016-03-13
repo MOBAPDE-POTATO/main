@@ -45,6 +45,40 @@
         android:id="@+id/featuresRecycler"
         android:foregroundTintMode="src_over" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lost Item"
+                android:id="@+id/rBtnLost"
+                android:checked="false" />
+
+        </RadioGroup>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Found Item"
+            android:id="@+id/rBtnFound"
+            android:checked="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnrItemType"
+        android:layout_gravity="center_horizontal"
+        android:spinnerMode="dropdown" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"

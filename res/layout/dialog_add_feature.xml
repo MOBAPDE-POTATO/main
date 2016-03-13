@@ -9,6 +9,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/etFeature"
         android:layout_gravity="center_horizontal"
-        android:editable="false"
         android:hint="Description" />
 </LinearLayout>
