@@ -46,28 +46,36 @@ public class AddReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getBaseContext(), R.layout.dialog_add_feature)
-                            .setTitle("Add Description")
-                            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    EditText etDescription = (EditText) findViewById(R.id.etFeature);
-                                    featureAdapter.addFeature(new Feature(etDescription.getText().toString()));
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-
+                        .setTitle("Add Description")
+                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText etDescription = (EditText) findViewById(R.id.etFeature);
+                                featureAdapter.addFeature(new Feature(etDescription.getText().toString()));
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
             }
         });
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //register stuff
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-
-
-
+                //cancel stuff
+                finish();
+            }
+        });
     }
 
 }
