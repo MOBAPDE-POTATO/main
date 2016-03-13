@@ -20,10 +20,14 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
-            android:name="com.example.mikogarcia.findit.RegisterActivity"
-            android:label="Register"></activity>
+            android:name=".RegisterActivity"
+            android:label="Register" />
+        <activity
+            android:name=".AddReportActivity"
+            android:label="File Lost Report"
+            ></activity>
     </application>
 
 </manifest>

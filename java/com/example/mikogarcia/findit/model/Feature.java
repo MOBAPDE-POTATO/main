@@ -28,4 +28,20 @@ public class Feature {
     public Feature(String feat) {
         this.feat = feat;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFeat() {
+        return feat;
+    }
+
+    public void setFeat(String feat) {
+        this.feat = feat;
+    }
 }
