@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if(requestCode == REQUEST_ADD_REPORT && resultCode == RESULT_OK){
+        /*if(requestCode == REQUEST_ADD_REPORT && resultCode == RESULT_OK){
             Date date = new Date(data.getLongExtra(KEY_DATE_LOST, 1));
             adapter.addReport(new Report(data.getStringExtra(KEY_ITEM_NAME),
                                         data.getStringExtra(KEY_PLACE_LOST),
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     (ArrayList)data.getExtras().get(KEY_FEATURES)));
 
 
-        }
+        }*/
     }
 
     private void loadContent(String json) throws JSONException {

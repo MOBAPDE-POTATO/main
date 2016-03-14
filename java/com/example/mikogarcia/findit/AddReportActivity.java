@@ -37,8 +37,6 @@ public class AddReportActivity extends AppCompatActivity {
     EditText etDescription;
     FeatureAdapter featureAdapter;
     Spinner spnrItemType;
-    RadioButton rBtnLost;
-    RadioButton rBtnFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +52,6 @@ public class AddReportActivity extends AppCompatActivity {
         btnReport = (Button)findViewById(R.id.btnReport);
         etDescription = (EditText)findViewById(R.id.etFeature);
         spnrItemType = (Spinner)findViewById(R.id.spnrItemType);
-        rBtnLost = (RadioButton)findViewById(R.id.rBtnLost);
-        rBtnFound = (RadioButton)findViewById(R.id.rBtnFound);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.items_array, android.R.layout.simple_spinner_item);
@@ -77,7 +73,7 @@ public class AddReportActivity extends AppCompatActivity {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent result = new Intent();
+                /*Intent result = new Intent();
                 result.putExtra(MainActivity.KEY_ITEM_NAME, etItemName.getText().toString());
                 result.putExtra(MainActivity.KEY_PLACE_LOST, etPlaceLost.getText().toString());
                 SimpleDateFormat df = new SimpleDateFormat("MM/DD/YYYY");
@@ -94,9 +90,12 @@ public class AddReportActivity extends AppCompatActivity {
                 else
                     result.putExtra(MainActivity.KEY_REPORT_TYPE, 2);
                 result.putExtra(MainActivity.KEY_ITEM_TYPE, spnrItemType.getSelectedItemId()+1);
-                result.putParcelableArrayListExtra(MainActivity.KEY_FEATURES, featureAdapter.getFeatures());
-                setResult(RESULT_OK, result);
+                result.putParcelableArrayListExtra(RMainActivity.KEY_FEATUES, featureAdapter.getFeatures());
+
+
+                setResult(RESULT_OK, result);*/
                 //report stuff
+
                 finish();
             }
         });

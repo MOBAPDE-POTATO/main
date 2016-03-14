@@ -1,5 +1,6 @@
 package com.example.mikogarcia.findit;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
     }
 
     @Override
-    public void onBindViewHolder(ReportHolder holder, int position) {
+    public void onBindViewHolder(ReportHolder holder, final int position) {
         final Report report = reports.get(position);
 
         holder.tvItem.setText(report.getItemName());
@@ -46,7 +47,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         holder.report_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(report.getId());
+                //mOnItemClickListener.onItemClick(report.getId());
+                viewReport(position, v);
             }
         });
     }
@@ -86,5 +88,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
 
     public interface OnItemClickListener {
         public void onItemClick(int id);
+    }
+    public void viewReport(int id, View v){
+        Intent i = new Intent(v.getContext(), ViewReportActivity.class);
+        i.putExtra("id", id);
+
+
     }
 }

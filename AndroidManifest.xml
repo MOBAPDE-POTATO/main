@@ -26,8 +26,8 @@
             android:label="Register" />
         <activity
             android:name=".AddReportActivity"
-            android:label="File Lost Report"
-            ></activity>
+            android:label="File Lost Report" />
+        <activity android:name=".ViewReportActivity"></activity>
     </application>
 
 </manifest>
