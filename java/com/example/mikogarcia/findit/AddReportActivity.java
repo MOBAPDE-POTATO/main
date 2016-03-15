@@ -30,18 +30,23 @@ public class AddReportActivity extends AppCompatActivity {
     EditText etItemName;
     EditText etPlaceLost;
     EditText etDateLost;
+
     RecyclerView featuresRecycler;
+    FeatureAdapter featureAdapter;
+
     Button btnAddFeature;
     Button btnReport;
     Button btnCancel;
+
     EditText etDescription;
-    FeatureAdapter featureAdapter;
     Spinner spnrItemType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_report);
+
+        final ArrayList<Feature> features = new ArrayList<>();
 
         etItemName = (EditText)findViewById(R.id.etItemName);
         etPlaceLost = (EditText)findViewById(R.id.etPlace);
@@ -52,58 +57,35 @@ public class AddReportActivity extends AppCompatActivity {
         btnReport = (Button)findViewById(R.id.btnReport);
         etDescription = (EditText)findViewById(R.id.etFeature);
         spnrItemType = (Spinner)findViewById(R.id.spnrItemType);
+        featureAdapter = new FeatureAdapter(features);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.items_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnrItemType.setAdapter(adapter);
 
-        final ArrayList<Feature> features = new ArrayList<>();
-        featureAdapter = new FeatureAdapter(features);
         featuresRecycler.setAdapter(featureAdapter);
         featuresRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
         btnAddFeature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment dialogFragment = new AddFeatureDialog();
                 dialogFragment.show(getFragmentManager(), "");
-
             }
         });
-        btnReport.setOnClickListener(new View.OnClickListener() {
+
+        btnAddFeature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent result = new Intent();
-                result.putExtra(MainActivity.KEY_ITEM_NAME, etItemName.getText().toString());
-                result.putExtra(MainActivity.KEY_PLACE_LOST, etPlaceLost.getText().toString());
-                SimpleDateFormat df = new SimpleDateFormat("MM/DD/YYYY");
-                long dateNum = Long.parseLong(null);
-                try {
-                    Date date = df.parse(etDateLost.getText().toString());
-                    dateNum = date.getTime();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                result.putExtra(MainActivity.KEY_DATE_LOST, dateNum);
-                if(rBtnLost.isChecked())
-                    result.putExtra(MainActivity.KEY_REPORT_TYPE, 1);
-                else
-                    result.putExtra(MainActivity.KEY_REPORT_TYPE, 2);
-                result.putExtra(MainActivity.KEY_ITEM_TYPE, spnrItemType.getSelectedItemId()+1);
-                result.putParcelableArrayListExtra(RMainActivity.KEY_FEATUES, featureAdapter.getFeatures());
-
-
-                setResult(RESULT_OK, result);*/
-                //report stuff
-
+                setResult(RESULT_OK);
                 finish();
             }
         });
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //cancel stuff
                 setResult(RESULT_CANCELED);
                 finish();
             }

@@ -41,7 +41,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
+    public static final String SERVER_IP = "http://192.168.1.103/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
     public static final String ERROR_TAG = "ERROR: ";
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
 
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_CODE_REGISTER = 1;
     public final static int REQUEST_ADD_REPORT = 2;
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
-
 
     public final static String KEY_ITEM_NAME = "item_name";
     public final static String KEY_PLACE_LOST = "place_lost";
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         reportsList = (RecyclerView) findViewById(R.id.report_list);
         btnAddReport = (Button)findViewById(R.id.add_report_btn);
         adapter = new ReportAdapter();
-
 
         btnAddReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,18 +118,9 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        } else if(requestCode == REQUEST_ADD_REPORT && resultCode == RESULT_OK) {
+            new ViewReportHelper().execute();
         }
-        /*if(requestCode == REQUEST_ADD_REPORT && resultCode == RESULT_OK){
-            Date date = new Date(data.getLongExtra(KEY_DATE_LOST, 1));
-            adapter.addReport(new Report(data.getStringExtra(KEY_ITEM_NAME),
-                                        data.getStringExtra(KEY_PLACE_LOST),
-                                        date,
-                                        data.getIntExtra(KEY_REPORT_TYPE,1),
-                                        data.getIntExtra(KEY_ITEM_TYPE, 1),
-                    (ArrayList)data.getExtras().get(KEY_FEATURES)));
-
-
-        }*/
     }
 
     private void loadContent(String json) throws JSONException {
