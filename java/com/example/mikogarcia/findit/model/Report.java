@@ -102,9 +102,9 @@ public class Report {
     }
 
     public void setReportDateString(Date date) {
-        final String[] months = new String[]{"January", "February", "March", "April", "May",
-                "June", "July", "August", "September", "October",
-                "November", "December"};
+        final String[] months = new String[]{"Jan.", "Feb.", "Mar.", "Apr.", "May",
+                "Jun.", "Jul.", "Aug.", "Sept.", "Oct.",
+                "Nov.", "Dec."};
 
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
