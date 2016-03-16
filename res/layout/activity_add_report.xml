@@ -12,37 +12,44 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_container"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Category"
+                android:layout_above="@+id/etPlace"
+                android:layout_below="@+id/etItemName"
+                android:layout_alignStart="@+id/etPlace"
+                android:gravity="center_vertical"
+                android:layout_toStartOf="@+id/spnrItemType"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:id="@+id/tv_category" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spnrItemType"
+                android:layout_gravity="center_horizontal"
+                android:spinnerMode="dropdown"
+                android:layout_below="@+id/etItemName"
+                android:layout_toEndOf="@+id/tv_desc_list" />
+        </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etItemName"
             android:hint="Item Name"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category"
-            android:layout_above="@+id/etPlace"
-            android:layout_below="@+id/etItemName"
-            android:layout_alignStart="@+id/etPlace"
-            android:gravity="center_vertical"
-            android:layout_toStartOf="@+id/spnrItemType"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:id="@+id/tv_category" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnrItemType"
-            android:layout_gravity="center_horizontal"
-            android:spinnerMode="dropdown"
-            android:layout_below="@+id/etItemName"
-            android:layout_toEndOf="@+id/tv_desc_list" />
+            android:layout_below="@+id/category_container"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -50,7 +57,7 @@
             android:id="@+id/etPlace"
             android:layout_gravity="center_horizontal"
             android:hint="Place Lost"
-            android:layout_below="@+id/spnrItemType" />
+            android:layout_below="@+id/etItemName" />
 
         <EditText
             android:layout_width="match_parent"
@@ -83,15 +90,6 @@
             android:layout_below="@+id/etDate"
             android:layout_alignEnd="@+id/etDate" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Report"
-            android:id="@+id/btnReport"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignEnd="@+id/featuresRecycler" />
-
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -100,6 +98,15 @@
             android:foregroundTintMode="src_over"
             android:layout_below="@+id/tv_desc_list"
             android:layout_above="@+id/btnReport" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:id="@+id/btnReport"
+            android:layout_alignEnd="@+id/featuresRecycler"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 </LinearLayout>

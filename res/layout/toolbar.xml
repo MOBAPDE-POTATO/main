@@ -4,6 +4,7 @@
     android:id="@+id/toolbar"
     app:title="@string/app_name"
     app:titleTextColor="#FFFFFF"
+    app:theme="@style/ToolbarColoredBackArrow"
     android:popupTheme="@style/AppTheme"
     android:theme="@style/AppTheme"
     android:minHeight="?attr/actionBarSize"
