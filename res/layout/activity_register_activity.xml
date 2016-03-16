@@ -6,6 +6,9 @@
     tools:context="com.example.mikogarcia.findit.RegisterActivity"
     android:orientation="vertical">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,11 +84,6 @@
                     android:text="Register"
                     android:id="@+id/bRegister" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"
-                    android:id="@+id/bCancel" />
             </LinearLayout>
 
         </LinearLayout>

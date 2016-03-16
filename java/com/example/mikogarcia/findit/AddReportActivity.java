@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,6 +81,11 @@ public class AddReportActivity extends AppCompatActivity {
         sqlFormatter = new SimpleDateFormat("yyyy-MM-dd");
         viewFormatter = new SimpleDateFormat("MM-dd-yyyy");
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("File Lost Report");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.items_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -142,6 +149,13 @@ public class AddReportActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
     public void onAddFeature(String description) {
         featureAdapter.addFeature(new Feature(temp_id, description));
         temp_id++;
@@ -193,6 +207,7 @@ public class AddReportActivity extends AppCompatActivity {
         if(checkItemName == true && checkPlaceLost == true && checkDate == true){
         Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
         addReport(report);
+
         }
 
     }
@@ -214,6 +229,7 @@ public class AddReportActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(datePattern);
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
+
     }
 
     private void addReport(Report r) {
@@ -249,6 +265,7 @@ public class AddReportActivity extends AppCompatActivity {
 
             for (Feature feat: r.getFeatures()) {
                 bodyBuilder.add(Report.COLUMN_FEATURES, feat.getFeat());
+
             }
 
             RequestBody body = bodyBuilder.build();
@@ -259,7 +276,9 @@ public class AddReportActivity extends AppCompatActivity {
 
             try {
                 Response response = client.newCall(request).execute();
-                return response.body().string();
+                String resp = response.body().string();
+
+                return resp;
             } catch (IOException e) {
                 e.printStackTrace();
             }
