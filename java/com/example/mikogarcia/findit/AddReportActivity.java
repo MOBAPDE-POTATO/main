@@ -205,9 +205,8 @@ public class AddReportActivity extends AppCompatActivity {
         // TODO: 3/16/2016 MARTINS MAGIC ERROR CHECKING
 
         if(checkItemName == true && checkPlaceLost == true && checkDate == true){
-        Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
-        addReport(report);
-
+            Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
+            addReport(report);
         }
 
     }

@@ -44,7 +44,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
 //    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
-    public static final String SERVER_IP = "http://192.168.1.150/FindIT-Web-Service/";
+    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";
     public static final String ERROR_TAG = "ERROR: ";
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
 
