@@ -68,8 +68,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done"
-        android:id="@+id/btnDone"
+        android:text="Possible Matches"
+        android:id="@+id/btnPossibleMatches"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/feature_scroll"
         android:layout_alignParentStart="true" />

@@ -88,15 +88,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int id) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
-                Report r = adapter.getReport(id);
-        
+                //Report r = adapter.getReport(id);
+                Intent i = new Intent(getBaseContext(), ViewReportActivity.class);
+                i.putExtra("id", id);
+                startActivity(i);
             }
         });
 
         reportsList.setAdapter(adapter);
         reportsList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
-//        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+//      PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
         if(json != null){

@@ -27,7 +27,8 @@
         <activity
             android:name=".AddReportActivity"
             android:label="File Lost Report" />
-        <activity android:name=".ViewReportActivity"></activity>
+        <activity android:name=".ViewReportActivity" />
+        <activity android:name=".ViewPossibleMatchesActivity"></activity>
     </application>
 
 </manifest>

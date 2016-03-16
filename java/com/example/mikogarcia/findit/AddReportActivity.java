@@ -162,6 +162,7 @@ public class AddReportActivity extends AppCompatActivity {
 
 
         Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
+        addReport(report);
     }
 
     private void addReport(Report r) {
