@@ -1,24 +1,18 @@
 package com.example.mikogarcia.findit;
 
-import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,10 +21,11 @@ import com.example.mikogarcia.findit.model.Feature;
 import com.example.mikogarcia.findit.model.Report;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -58,6 +53,7 @@ public class AddReportActivity extends AppCompatActivity {
 
     int acc_id;
     int temp_id;
+    SimpleDateFormat sqlFormatter, viewFormatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +67,15 @@ public class AddReportActivity extends AppCompatActivity {
         etDateLost = (EditText)findViewById(R.id.etDate);
         featuresRecycler = (RecyclerView)findViewById(R.id.featuresRecycler);
         btnAddFeature = (Button)findViewById(R.id.btnAddDescription);
-        btnCancel = (Button)findViewById(R.id.btnCancel);
+        //btnCancel = (Button)findViewById(R.id.btnCancel);
         btnReport = (Button)findViewById(R.id.btnReport);
         etDescription = (EditText)findViewById(R.id.etFeature);
         spnrItemType = (Spinner)findViewById(R.id.spnrItemType);
         featureAdapter = new FeatureAdapter(features);
         acc_id = getIntent().getExtras().getInt(Account.COLUMN_ID, -1);
         temp_id = 0;
+        sqlFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        viewFormatter = new SimpleDateFormat("MM-dd-yyyy");
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.items_array, android.R.layout.simple_spinner_item);
@@ -91,11 +89,30 @@ public class AddReportActivity extends AppCompatActivity {
              */
             public void onItemClick(int id) {
                 // TODO: 3/16/2016 EDIT FEATURE WHEN I CLICK ON IT
+
+
             }
         });
 
         featuresRecycler.setAdapter(featureAdapter);
         featuresRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
+        etDateLost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePicker = new DatePickerDialog(AddReportActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(year, monthOfYear, dayOfMonth);
+
+                        etDateLost.setText(viewFormatter.format(cal.getTimeInMillis()));
+                    }
+                }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
+                datePicker.show();
+            }
+        });
 
         btnAddFeature.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,20 +122,21 @@ public class AddReportActivity extends AppCompatActivity {
             }
         });
 
-        btnAddFeature.setOnClickListener(new View.OnClickListener() {
+        btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 attemptAddReport();
+
             }
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        /*btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
                 finish();
             }
-        });
+        });*/
 
     }
 
@@ -126,9 +144,24 @@ public class AddReportActivity extends AppCompatActivity {
         featureAdapter.addFeature(new Feature(temp_id, description));
         temp_id++;
     }
+    public void onEditFeature(){}
+
 
     private void attemptAddReport(){
+        String itemName = etItemName.getText().toString();
+        String placeLost = etPlaceLost.getText().toString();
+        Date dateLost = null;
+        try {
+            dateLost = Date.valueOf(sqlFormatter.format(viewFormatter.parse(etDateLost.getText().toString())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int itemType = spnrItemType.getSelectedItemPosition()+1;
+        ArrayList<Feature> features = featureAdapter.getFeatures();
         // TODO: 3/16/2016 MARTINS MAGIC ERROR CHECKING
+
+
+        Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
     }
 
     private void addReport(Report r) {

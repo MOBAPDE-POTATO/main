@@ -34,6 +34,7 @@ public class AddFeatureDialog extends DialogFragment{
                         dismiss();
                     }
                 });
+
         return  alertDialogBuilder.create();
     }
 

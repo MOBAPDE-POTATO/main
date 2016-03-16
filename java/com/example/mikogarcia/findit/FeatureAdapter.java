@@ -66,8 +66,19 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
 
     public void addFeature(Feature feature) {
         features.add(feature);
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(getItemCount());
     }
+    public void editFeature(Feature feature) {
+        //features.add(feature);
+        for(Feature f:features){
+            if(f.getId() == feature.getId()){
+                f.setFeat(feature.getFeat());
+                break;
+            }
+        }
+        notifyItemChanged(feature.getId());
+    }
+
 
     public void setFeatureList(ArrayList<Feature> features) {
         this.features = features;

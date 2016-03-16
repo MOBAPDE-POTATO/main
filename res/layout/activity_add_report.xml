@@ -92,15 +92,14 @@
         android:layout_below="@+id/btnAddDescription"
         android:layout_alignStart="@+id/tv_desc_list"
         android:layout_above="@+id/btnReport"
-        android:fillViewport="false">
+        android:fillViewport="true">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/featuresRecycler"
-            android:foregroundTintMode="src_over"
-            android:layout_below="@+id/btnAddDescription"
-            android:layout_alignEnd="@+id/btnAddDescription" />
-    </ScrollView>
+            android:foregroundTintMode="src_over" />
+
+</ScrollView>
 
 </RelativeLayout>
