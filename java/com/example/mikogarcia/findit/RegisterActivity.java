@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setTitle(R.string.title_activity_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         bRegister.setOnClickListener(new View.OnClickListener() {

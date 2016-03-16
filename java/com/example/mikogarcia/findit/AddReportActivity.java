@@ -3,9 +3,6 @@ package com.example.mikogarcia.findit;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -179,6 +176,7 @@ public class AddReportActivity extends AppCompatActivity {
 
 
         Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
+        addReport(report);
     }
 
     private void addReport(Report r) {
@@ -214,6 +212,7 @@ public class AddReportActivity extends AppCompatActivity {
 
             for (Feature feat: r.getFeatures()) {
                 bodyBuilder.add(Report.COLUMN_FEATURES, feat.getFeat());
+
             }
 
             RequestBody body = bodyBuilder.build();
@@ -224,7 +223,9 @@ public class AddReportActivity extends AppCompatActivity {
 
             try {
                 Response response = client.newCall(request).execute();
-                return response.body().string();
+                String resp = response.body().string();
+
+                return resp;
             } catch (IOException e) {
                 e.printStackTrace();
             }
