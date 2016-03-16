@@ -82,24 +82,16 @@
         android:text="Report"
         android:id="@+id/btnReport"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/feature_scroll"
-        android:layout_alignStart="@+id/feature_scroll" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/featuresRecycler" />
 
-    <ScrollView
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/feature_scroll"
-        android:layout_below="@+id/btnAddDescription"
-        android:layout_alignStart="@+id/tv_desc_list"
-        android:layout_above="@+id/btnReport"
-        android:fillViewport="true">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/featuresRecycler"
-            android:foregroundTintMode="src_over" />
-
-</ScrollView>
+        android:layout_height="fill_parent"
+        android:id="@+id/featuresRecycler"
+        android:foregroundTintMode="src_over"
+        android:layout_below="@+id/tv_desc_list"
+        android:layout_above="@+id/btnReport" />
 
 </RelativeLayout>
