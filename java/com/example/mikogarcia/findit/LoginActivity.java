@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_email;
     private EditText et_pass;
     private TextView createAccountView;
-    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         createAccountView = (TextView)findViewById(R.id.createAccount);
-        mLoginFormView = findViewById(R.id.login_form);
         et_email = (EditText) findViewById(R.id.loginEmail);
         et_pass = (EditText) findViewById(R.id.loginPassword);
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -98,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         boolean checkemail = false;
         boolean checkpass = false;
 
-        // TODO: 3/8/2016 DO ERROR CHECKING
         // FIELDS ARE FILLED
         if(isEmpty(email) || isEmpty(pass)) {
 
@@ -253,4 +250,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
-
