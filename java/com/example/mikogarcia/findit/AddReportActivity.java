@@ -57,6 +57,7 @@ public class AddReportActivity extends AppCompatActivity {
     Spinner spnrItemType;
 
     int acc_id;
+    int temp_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +77,22 @@ public class AddReportActivity extends AppCompatActivity {
         spnrItemType = (Spinner)findViewById(R.id.spnrItemType);
         featureAdapter = new FeatureAdapter(features);
         acc_id = getIntent().getExtras().getInt(Account.COLUMN_ID, -1);
+        temp_id = 0;
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.items_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnrItemType.setAdapter(adapter);
+
+        featureAdapter.setmOnItemClickListener(new FeatureAdapter.OnItemClickListener() {
+            @Override
+            /**
+             * @params: id = feature's set id (since wala pa sa db, temp_id ginagamit)
+             */
+            public void onItemClick(int id) {
+                // TODO: 3/16/2016 EDIT FEATURE WHEN I CLICK ON IT
+            }
+        });
 
         featuresRecycler.setAdapter(featureAdapter);
         featuresRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -111,7 +123,8 @@ public class AddReportActivity extends AppCompatActivity {
     }
 
     public void onAddFeature(String description) {
-        featureAdapter.addFeature(new Feature(description));
+        featureAdapter.addFeature(new Feature(temp_id, description));
+        temp_id++;
     }
 
     private void attemptAddReport(){

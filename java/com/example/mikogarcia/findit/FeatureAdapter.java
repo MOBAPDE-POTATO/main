@@ -47,6 +47,12 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
                 removeAt(position);
             }
         });
+        holder.feature_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(feature.getId());
+            }
+        });
     }
 
     @Override
@@ -69,6 +75,26 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
 
     }
 
+    public void removeAt(int position) {
+        features.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, features.size());
+    }
+
+    public Feature getFeature(int id) {
+        for(Feature f: features) {
+            if(f.getId() == id) {
+                return f;
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Feature> getFeatures(){
+        return features;
+    }
+
     public class FeatureHolder extends RecyclerView.ViewHolder {
 
         TextView tvDesc;
@@ -87,14 +113,6 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureH
 
     public interface OnItemClickListener {
         public void onItemClick(int id);
-    }
-    public void removeAt(int position) {
-        features.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, features.size());
-    }
-    public ArrayList<Feature> getFeatures(){
-        return features;
     }
 }
 

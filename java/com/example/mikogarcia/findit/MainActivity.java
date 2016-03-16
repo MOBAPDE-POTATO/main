@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_CODE_LOGIN = 0;
     public final static int REQUEST_CODE_REGISTER = 1;
     public final static int REQUEST_ADD_REPORT = 2;
+
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
 
     public final static String KEY_ITEM_NAME = "item_name";
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, REQUEST_ADD_REPORT);
             }
         });
+
         adapter.setmOnItemClickListener(new ReportAdapter.OnItemClickListener() {
 
             @Override
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
         }
     }
