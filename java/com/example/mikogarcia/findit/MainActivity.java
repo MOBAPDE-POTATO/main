@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.setmOnItemClickListener(new ReportAdapter.OnItemClickListener() {
 
             @Override
-            public void onItemClick(int id) {
+            public void onItemClick(Report report) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
-                Report r = adapter.getReport(id);
+
         
             }
         });

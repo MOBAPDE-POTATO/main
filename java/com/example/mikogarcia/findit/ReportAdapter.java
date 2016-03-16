@@ -46,7 +46,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         holder.report_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(report.getId());
+                mOnItemClickListener.onItemClick(report);
             }
         });
     }
@@ -95,6 +95,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
     }
 
     public interface OnItemClickListener {
-        public void onItemClick(int id);
+        public void onItemClick(Report report);
     }
 }
