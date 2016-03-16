@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
         etConfirmPassword = (EditText)findViewById(R.id.etConfirmPassword);
         bRegister = (Button)findViewById(R.id.bRegister);
         bCancel = (Button)findViewById(R.id.bCancel);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
