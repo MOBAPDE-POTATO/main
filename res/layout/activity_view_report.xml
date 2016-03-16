@@ -52,7 +52,7 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2"
+        android:id="@+id/feature_scroll"
         android:layout_below="@+id/btnAddDescription"
         android:layout_alignStart="@+id/btnAddDescription">
 
@@ -71,7 +71,7 @@
         android:text="Done"
         android:id="@+id/btnDone"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/scrollView2"
+        android:layout_alignEnd="@+id/feature_scroll"
         android:layout_alignParentStart="true" />
 
     <TextView
