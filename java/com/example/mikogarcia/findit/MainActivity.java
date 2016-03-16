@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import okhttp3.FormBody;
@@ -45,9 +47,19 @@ public class MainActivity extends AppCompatActivity {
 
     public final static int REQUEST_CODE_LOGIN = 0;
     public final static int REQUEST_CODE_REGISTER = 1;
+    public final static int REQUEST_ADD_REPORT = 2;
+
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
 
+    public final static String KEY_ITEM_NAME = "item_name";
+    public final static String KEY_PLACE_LOST = "place_lost";
+    public final static String KEY_DATE_LOST = "date_lost";
+    public final static String KEY_REPORT_TYPE = "report_type";
+    public final static String KEY_ITEM_TYPE = "item_type";
+    public final static String KEY_FEATURES = "features";
+
     private RecyclerView reportsList;
+    private Button btnAddReport;
 
     private Account account;
     private ReportAdapter adapter;
@@ -58,13 +70,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         reportsList = (RecyclerView) findViewById(R.id.report_list);
+        btnAddReport = (Button)findViewById(R.id.add_report_btn);
         adapter = new ReportAdapter();
+
+        btnAddReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), AddReportActivity.class);
+                i.putExtra(Account.COLUMN_ID, account.getId());
+
+                startActivityForResult(i, REQUEST_ADD_REPORT);
+            }
+        });
 
         adapter.setmOnItemClickListener(new ReportAdapter.OnItemClickListener() {
 
             @Override
             public void onItemClick(int id) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
+                Report r = adapter.getReport(id);
+        
             }
         });
 
@@ -81,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
         }
     }
@@ -100,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        } else if(requestCode == REQUEST_ADD_REPORT && resultCode == RESULT_OK) {
+            new ViewReportHelper().execute();
         }
     }
 

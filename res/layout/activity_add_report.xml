@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddReportActivity"
+    android:padding="16dp">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etItemName"
+        android:hint="Item Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:layout_above="@+id/etPlace"
+        android:layout_below="@+id/etItemName"
+        android:layout_alignStart="@+id/etPlace"
+        android:gravity="center_vertical"
+        android:layout_toStartOf="@+id/spnrItemType"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/tv_category" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnrItemType"
+        android:layout_gravity="center_horizontal"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/etItemName"
+        android:layout_toEndOf="@+id/tv_desc_list" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etPlace"
+        android:layout_gravity="center_horizontal"
+        android:hint="Place Lost"
+        android:layout_below="@+id/spnrItemType" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/etDate"
+        android:layout_gravity="center_horizontal"
+        android:hint="Date Lost"
+        android:layout_below="@+id/etPlace"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description List"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:id="@+id/tv_desc_list"
+        android:layout_below="@+id/etDate"
+        android:layout_alignStart="@+id/etDate"
+        android:layout_alignBottom="@+id/btnAddDescription"
+        android:gravity="center_vertical" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:id="@+id/btnAddDescription"
+        android:layout_below="@+id/etDate"
+        android:layout_alignEnd="@+id/etDate" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Report"
+        android:id="@+id/btnReport"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/feature_scroll"
+        android:layout_alignStart="@+id/feature_scroll" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/feature_scroll"
+        android:layout_below="@+id/btnAddDescription"
+        android:layout_alignStart="@+id/tv_desc_list"
+        android:layout_above="@+id/btnReport"
+        android:fillViewport="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/featuresRecycler"
+            android:foregroundTintMode="src_over" />
+
+</ScrollView>
+
+</RelativeLayout>

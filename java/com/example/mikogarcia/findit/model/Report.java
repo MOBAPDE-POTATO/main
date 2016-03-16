@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Miko Garcia on 3/6/2016.
@@ -24,6 +25,7 @@ public class Report {
     public static final String COLUMN_REPORT_TYPE = "report_type";
     public static final String COLUMN_CLAIMED = "claimed";
     public static final String COLUMN_LOG_DATE = "log_date";
+    public static final String COLUMN_FEATURES = Feature.TABLE_NAME + "[]";
 
     public static final int REPORT_TYPE_LOST = 1;
     public static final int REPORT_TYPE_FOUND = 2;
@@ -102,9 +104,9 @@ public class Report {
     }
 
     public void setReportDateString(Date date) {
-        final String[] months = new String[]{"January", "February", "March", "April", "May",
-                "June", "July", "August", "September", "October",
-                "November", "December"};
+        final String[] months = new String[]{"Jan.", "Feb.", "Mar.", "Apr.", "May",
+                "Jun.", "Jul.", "Aug.", "Sept.", "Oct.",
+                "Nov.", "Dec."};
 
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
@@ -181,8 +183,8 @@ public class Report {
         this.logDate = logDate;
     }
 
-    public Iterator getFeatures() {
-        return features.iterator();
+    public List<Feature> getFeatures() {
+        return features;
     }
 
     public void addFeature(Feature feature) {

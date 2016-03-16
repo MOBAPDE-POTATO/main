@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:id="@+id/container">
+    android:id="@+id/report_container">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_item"
-        android:textStyle="bold"
-        android:textIsSelectable="false"
-        android:textSize="30dp"
-        android:text="Report: "
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +12,19 @@
         android:text="Report date: "
         android:id="@+id/tv_date"
         android:textSize="15dp"
-        android:layout_below="@+id/tv_place"
+        android:layout_gravity="right"
+        android:layout_alignBottom="@+id/tv_item"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_item"
+        android:textStyle="bold"
+        android:textIsSelectable="false"
+        android:textSize="20dp"
+        android:text="Report: "
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -34,4 +36,4 @@
         android:layout_below="@+id/tv_item"
         android:layout_alignParentStart="true" />
 
-</LinearLayout>
+</RelativeLayout>

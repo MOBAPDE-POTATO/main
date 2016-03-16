@@ -1,5 +1,6 @@
 package com.example.mikogarcia.findit;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -27,7 +28,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         this.reports = new ArrayList<>();
     }
 
-
     @Override
     public ReportHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -37,13 +37,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
     }
 
     @Override
-    public void onBindViewHolder(ReportHolder holder, int position) {
+    public void onBindViewHolder(ReportHolder holder, final int position) {
         final Report report = reports.get(position);
 
         holder.tvItem.setText(report.getItemName());
         holder.tvDate.setText(report.getReportDateString());
         holder.tvPlace.setText(report.getPlace());
-        holder.container.setOnClickListener(new View.OnClickListener() {
+        holder.report_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClick(report.getId());
@@ -69,15 +69,25 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         notifyDataSetChanged();
     }
 
+    public Report getReport(int id) {
+        for (Report r: reports) {
+            if(r.getId() == id) {
+                return r;
+            }
+        }
+
+        return null;
+    }
+
     public class ReportHolder extends RecyclerView.ViewHolder {
 
         TextView tvItem, tvDate, tvPlace;
-        View container;
+        View report_container;
 
         public ReportHolder(View itemView) {
             super(itemView);
 
-            container = itemView.findViewById(R.id.container);
+            report_container = itemView.findViewById(R.id.report_container);
             tvItem = (TextView) itemView.findViewById(R.id.tv_item);
             tvDate = (TextView) itemView.findViewById(R.id.tv_date);
             tvPlace = (TextView) itemView.findViewById(R.id.tv_place);
