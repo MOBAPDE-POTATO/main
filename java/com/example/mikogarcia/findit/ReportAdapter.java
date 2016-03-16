@@ -28,7 +28,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         this.reports = new ArrayList<>();
     }
 
-
     @Override
     public ReportHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -47,8 +46,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         holder.report_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mOnItemClickListener.onItemClick(report.getId());
-                viewReport(position, v);
+                mOnItemClickListener.onItemClick(report.getId());
             }
         });
     }
@@ -71,6 +69,16 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
         notifyDataSetChanged();
     }
 
+    public Report getReport(int id) {
+        for (Report r: reports) {
+            if(r.getId() == id) {
+                return r;
+            }
+        }
+
+        return null;
+    }
+
     public class ReportHolder extends RecyclerView.ViewHolder {
 
         TextView tvItem, tvDate, tvPlace;
@@ -88,11 +96,5 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportHold
 
     public interface OnItemClickListener {
         public void onItemClick(int id);
-    }
-    public void viewReport(int id, View v){
-        Intent i = new Intent(v.getContext(), ViewReportActivity.class);
-        i.putExtra("id", id);
-
-
     }
 }

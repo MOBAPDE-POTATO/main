@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
         btnAddReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), AddReportActivity.class));
+                Intent i = new Intent(getBaseContext(), AddReportActivity.class);
+                i.putExtra(Account.COLUMN_ID, account.getId());
+
+                startActivityForResult(i, REQUEST_ADD_REPORT);
             }
         });
         adapter.setmOnItemClickListener(new ReportAdapter.OnItemClickListener() {
@@ -83,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int id) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
+                Report r = adapter.getReport(id);
+        
             }
         });
 
