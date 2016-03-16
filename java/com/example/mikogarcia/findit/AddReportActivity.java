@@ -28,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -164,6 +166,7 @@ public class AddReportActivity extends AppCompatActivity {
     private void attemptAddReport(){
         String itemName = etItemName.getText().toString();
         String placeLost = etPlaceLost.getText().toString();
+        String date = etDateLost.getText().toString();
         Date dateLost = null;
         try {
             dateLost = Date.valueOf(sqlFormatter.format(viewFormatter.parse(etDateLost.getText().toString())));
@@ -172,11 +175,60 @@ public class AddReportActivity extends AppCompatActivity {
         }
         int itemType = spnrItemType.getSelectedItemPosition()+1;
         ArrayList<Feature> features = featureAdapter.getFeatures();
+        boolean checkItemName;
+        boolean checkPlaceLost;
+        boolean checkDate;
+
+        if(!isEmpty(itemName)){
+            checkItemName = true;
+        }else{
+            checkItemName = false;
+            etItemName.setError("Field must be filled");
+        }
+        if(!isEmpty(placeLost)){
+            checkPlaceLost = true;
+        }else{
+            checkPlaceLost = false;
+            etPlaceLost.setError("Field must be filled");
+        }
+        if(isEmpty(date)){
+            checkDate = false;
+            etDateLost.setError("Date must be selected");
+        }else{
+            if(dateCheck(date)){
+                checkDate = true;
+            }else{
+                etDateLost.setError("Date does not match date format: mm-dd-yyyy");
+                checkDate = false;
+            }
+        }
         // TODO: 3/16/2016 MARTINS MAGIC ERROR CHECKING
 
+        if(checkItemName == true && checkPlaceLost == true && checkDate == true){
+            Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
+            addReport(report);
+        }
 
-        Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
-        addReport(report);
+    }
+
+    private boolean isEmpty(String name) {
+        if (name.length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public ArrayList<Feature> getFeatures(){
+      return featureAdapter.getFeatures();
+    }
+
+    private boolean dateCheck(String date){
+        String datePattern = "^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d$";
+        Pattern pattern = Pattern.compile(datePattern);
+        Matcher matcher = pattern.matcher(date);
+        return matcher.matches();
+
     }
 
     private void addReport(Report r) {
