@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         reportsList = (RecyclerView) findViewById(R.id.report_list);
         btnAddReport = (Button)findViewById(R.id.add_report_btn);
         adapter = new ReportAdapter();
+        
 
         btnAddReport.setOnClickListener(new View.OnClickListener() {
             @Override
