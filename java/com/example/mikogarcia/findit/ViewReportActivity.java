@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.example.mikogarcia.findit.model.Feature;
 import com.example.mikogarcia.findit.model.Report;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ViewReportActivity extends AppCompatActivity {
@@ -23,56 +26,60 @@ public class ViewReportActivity extends AppCompatActivity {
     RecyclerView featuresRecycler;
     Button btnPossibleMatches;
     ViewFeatureAdapter viewfeatureAdapter;
-    ReportAdapter adapter;
+    Report report;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_report);
-        final int id = getIntent().getExtras().getInt("id");
+
+        String json = getIntent().getExtras().getString(MainActivity.REPORT_JSON_KEY);
+        try {
+            report = new Report(new JSONObject(json));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         tvItemName = (TextView)findViewById(R.id.tvItemName);
         tvPlaceLost = (TextView)findViewById(R.id.tvPlaceLost);
         tvDateLost = (TextView)findViewById(R.id.tvDateLost);
         tvItemType = (TextView)findViewById(R.id.tvItemType);
         featuresRecycler = (RecyclerView)findViewById(R.id.viewReportsFeatureRecycler);
         btnPossibleMatches = (Button) findViewById(R.id.btnPossibleMatches);
+
         final ArrayList<Feature> features = new ArrayList<>();
         viewfeatureAdapter = new ViewFeatureAdapter(features);
+
         featuresRecycler.setAdapter(viewfeatureAdapter);
         featuresRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-
-
-
-        Log.i("TAG", id + " is the ID");
-        Report report
-                = adapter.getReport(id);
 
         tvItemName.setText(report.getItemName());
         tvPlaceLost.setText(report.getPlace());
         tvDateLost.setText(report.getDate().toString());
-        if(report.getReportType() == 1)
-            tvItemType.setText(report.getItemType());
-        else if(report.getReportType() == 2)
-            tvItemType.setText(report.getItemType());
-        else if(report.getReportType() == 3)
-            tvItemType.setText(report.getItemType());
+
+        String itemType = "Others";
+        switch(report.getItemType()) {
+            case Report.ITEM_TYPE_ID: itemType = "ID"; break;
+            case Report.ITEM_TYPE_GADGET: itemType = "Gadget"; break;
+            case Report.ITEM_TYPE_MONEY: itemType = "Money"; break;
+        }
+
+        tvItemType.setText(itemType);
+
         viewfeatureAdapter.setFeatureList(new ArrayList(report.getFeatures()));
-
-
-
-
-
-
-
         btnPossibleMatches.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), ViewPossibleMatchesActivity.class);
-                i.putExtra("id", id);
-                startActivity(i);
+                try {
+                    Intent i = new Intent(getBaseContext(), ViewPossibleMatchesActivity.class);
+                    i.putExtra(MainActivity.REPORT_JSON_KEY, report.toJSONString());
+
+                    startActivity(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
-
-
-
     }
 }

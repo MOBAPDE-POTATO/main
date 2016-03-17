@@ -228,12 +228,6 @@ public class AddReportActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(datePattern);
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
-
-<<<<<<< HEAD
-        Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
-        addReport(report);
-=======
->>>>>>> refs/remotes/origin/master
     }
 
     private void addReport(Report r) {

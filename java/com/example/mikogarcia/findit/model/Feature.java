@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class Feature implements Parcelable{
 
     public static final String TABLE_NAME = "features";
-    public static final String COLUMN_ID = "feature_id";
+    public static final String COLUMN_ID = "feat_id";
     public static final String COLUMN_FEATURE = "feature";
 
     private int id;
@@ -63,6 +63,15 @@ public class Feature implements Parcelable{
 
     public void setFeat(String feat) {
         this.feat = feat;
+    }
+
+    public String toJSONString() throws JSONException {
+        JSONObject json = new JSONObject();
+
+        json.put(COLUMN_ID, id);
+        json.put(COLUMN_FEATURE, feat);
+
+        return json.toString();
     }
 
     @Override

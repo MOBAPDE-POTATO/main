@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_ADD_REPORT = 2;
 
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
+    public final static String REPORT_JSON_KEY = "reportJSON";
 
     public final static String KEY_ITEM_NAME = "item_name";
     public final static String KEY_PLACE_LOST = "place_lost";
@@ -94,15 +95,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Report report) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
-<<<<<<< HEAD
-                //Report r = adapter.getReport(id);
-                Intent i = new Intent(getBaseContext(), ViewReportActivity.class);
-                i.putExtra("id", id);
-                startActivity(i);
-=======
+                try {
+                    String json = report.toJSONString();
 
-        
->>>>>>> refs/remotes/origin/master
+                    Log.i("JSON", json);
+
+                    Intent i = new Intent();
+
+                    i.setClass(getBaseContext(), ViewReportActivity.class);
+                    i.putExtra(REPORT_JSON_KEY, json);
+
+                    startActivity(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
