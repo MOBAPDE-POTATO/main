@@ -44,7 +44,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
 //    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
-    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";
+    public static final String SERVER_IP = "http://192.168.1.103/FindIT-Web-Service/";
     public static final String ERROR_TAG = "ERROR: ";
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
 
@@ -157,16 +157,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadContent(String json) throws JSONException {
-        JSONArray j_rep = new JSONObject(json).getJSONArray(Report.TABLE_NAME);
+        JSONObject obj = new JSONObject(json);
         ArrayList<Report> reports = new ArrayList<>();
 
-        for(int i = 0; i < j_rep.length(); i++) {
-            Report report = new Report(j_rep.getJSONObject(i));
+        try {
+            JSONArray j_rep = obj.getJSONArray(Report.TABLE_NAME);
 
-            reports.add(report);
+            for (int i = 0; i < j_rep.length(); i++) {
+                Report report = new Report(j_rep.getJSONObject(i));
+
+                reports.add(report);
+            }
+        } catch (JSONException e) {
+            JSONObject rep = obj.getJSONObject(Report.TABLE_NAME);
+
+            reports.add(new Report(rep));
         }
 
-        // TODO: 3/8/2016 SET ADAPTER'S LIST TO reports
         adapter.setReportList(reports);
     }
 

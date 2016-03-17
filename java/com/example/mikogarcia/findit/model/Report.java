@@ -99,8 +99,7 @@ public class Report {
                 this.features.add(new Feature(feat));
             }
         }catch (Exception e) {
-            // This just means walang features ung report
-            e.printStackTrace();
+            // Report has no features
         }
 
         setReportDateString(date);

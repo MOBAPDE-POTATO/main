@@ -46,7 +46,7 @@ public class AddReportActivity extends AppCompatActivity {
     EditText etDateLost;
 
     RecyclerView featuresRecycler;
-    FeatureAdapter featureAdapter;
+    EditFeatureAdapter featureAdapter;
 
     Button btnAddFeature;
     Button btnReport;
@@ -75,7 +75,7 @@ public class AddReportActivity extends AppCompatActivity {
         btnReport = (Button)findViewById(R.id.btnReport);
         etDescription = (EditText)findViewById(R.id.etFeature);
         spnrItemType = (Spinner)findViewById(R.id.spnrItemType);
-        featureAdapter = new FeatureAdapter(features);
+        featureAdapter = new EditFeatureAdapter(features);
         acc_id = getIntent().getExtras().getInt(Account.COLUMN_ID, -1);
         temp_id = 0;
         sqlFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,7 +91,7 @@ public class AddReportActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnrItemType.setAdapter(adapter);
 
-        featureAdapter.setmOnItemClickListener(new FeatureAdapter.OnItemClickListener() {
+        featureAdapter.setmOnItemClickListener(new EditFeatureAdapter.OnItemClickListener() {
             @Override
             /**
              * @params: id = feature's set id (since wala pa sa db, temp_id ginagamit)

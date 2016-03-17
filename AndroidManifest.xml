@@ -34,6 +34,8 @@
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".ViewPossibleMatchesActivity"
             android:parentActivityName=".ViewReportActivity"/>
+        <activity android:name=".ViewMatchActivity"
+            android:parentActivityName=".ViewPossibleMatchesActivity"/>
 
     </application>
 
