@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -41,7 +43,8 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
+//    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
+    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";
     public static final String ERROR_TAG = "ERROR: ";
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
 
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         reportsList = (RecyclerView) findViewById(R.id.report_list);
         btnAddReport = (Button)findViewById(R.id.add_report_btn);
         adapter = new ReportAdapter();
@@ -86,12 +92,17 @@ public class MainActivity extends AppCompatActivity {
         adapter.setmOnItemClickListener(new ReportAdapter.OnItemClickListener() {
 
             @Override
-            public void onItemClick(int id) {
+            public void onItemClick(Report report) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
+<<<<<<< HEAD
                 //Report r = adapter.getReport(id);
                 Intent i = new Intent(getBaseContext(), ViewReportActivity.class);
                 i.putExtra("id", id);
                 startActivity(i);
+=======
+
+        
+>>>>>>> refs/remotes/origin/master
             }
         });
 
@@ -111,6 +122,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
     }
 
     @Override

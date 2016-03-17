@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -76,6 +80,11 @@ public class AddReportActivity extends AppCompatActivity {
         temp_id = 0;
         sqlFormatter = new SimpleDateFormat("yyyy-MM-dd");
         viewFormatter = new SimpleDateFormat("MM-dd-yyyy");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("File Lost Report");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.items_array, android.R.layout.simple_spinner_item);
@@ -140,6 +149,13 @@ public class AddReportActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
     public void onAddFeature(String description) {
         featureAdapter.addFeature(new Feature(temp_id, description));
         temp_id++;
@@ -150,6 +166,7 @@ public class AddReportActivity extends AppCompatActivity {
     private void attemptAddReport(){
         String itemName = etItemName.getText().toString();
         String placeLost = etPlaceLost.getText().toString();
+        String date = etDateLost.getText().toString();
         Date dateLost = null;
         try {
             dateLost = Date.valueOf(sqlFormatter.format(viewFormatter.parse(etDateLost.getText().toString())));
@@ -158,11 +175,65 @@ public class AddReportActivity extends AppCompatActivity {
         }
         int itemType = spnrItemType.getSelectedItemPosition()+1;
         ArrayList<Feature> features = featureAdapter.getFeatures();
+        boolean checkItemName;
+        boolean checkPlaceLost;
+        boolean checkDate;
+
+        if(!isEmpty(itemName)){
+            checkItemName = true;
+        }else{
+            checkItemName = false;
+            etItemName.setError("Field must be filled");
+        }
+        if(!isEmpty(placeLost)){
+            checkPlaceLost = true;
+        }else{
+            checkPlaceLost = false;
+            etPlaceLost.setError("Field must be filled");
+        }
+        if(isEmpty(date)){
+            checkDate = false;
+            etDateLost.setError("Date must be selected");
+        }else{
+            if(dateCheck(date)){
+                checkDate = true;
+            }else{
+                etDateLost.setError("Date does not match date format: mm-dd-yyyy");
+                checkDate = false;
+            }
+        }
         // TODO: 3/16/2016 MARTINS MAGIC ERROR CHECKING
 
+        if(checkItemName == true && checkPlaceLost == true && checkDate == true){
+            Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
+            addReport(report);
+        }
 
+    }
+
+    private boolean isEmpty(String name) {
+        if (name.length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public ArrayList<Feature> getFeatures(){
+      return featureAdapter.getFeatures();
+    }
+
+    private boolean dateCheck(String date){
+        String datePattern = "^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d$";
+        Pattern pattern = Pattern.compile(datePattern);
+        Matcher matcher = pattern.matcher(date);
+        return matcher.matches();
+
+<<<<<<< HEAD
         Report report = new Report(itemName, placeLost, dateLost, 1, itemType, features);
         addReport(report);
+=======
+>>>>>>> refs/remotes/origin/master
     }
 
     private void addReport(Report r) {
@@ -198,6 +269,7 @@ public class AddReportActivity extends AppCompatActivity {
 
             for (Feature feat: r.getFeatures()) {
                 bodyBuilder.add(Report.COLUMN_FEATURES, feat.getFeat());
+
             }
 
             RequestBody body = bodyBuilder.build();
@@ -208,7 +280,9 @@ public class AddReportActivity extends AppCompatActivity {
 
             try {
                 Response response = client.newCall(request).execute();
-                return response.body().string();
+                String resp = response.body().string();
+
+                return resp;
             } catch (IOException e) {
                 e.printStackTrace();
             }
