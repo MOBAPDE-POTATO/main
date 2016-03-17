@@ -49,21 +49,15 @@
         android:layout_below="@+id/tvDateLostLabel"
         android:layout_alignParentStart="true"
         android:layout_marginTop="29dp" />
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/feature_scroll"
-        android:layout_below="@+id/btnAddDescription"
-        android:layout_alignStart="@+id/btnAddDescription">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/viewReportsFeatureRecycler"
-            android:foregroundTintMode="src_over"
-            android:layout_below="@+id/tvFeaturesLabel"
-            android:layout_alignParentEnd="true" />
-    </ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewReportsFeatureRecycler"
+        android:foregroundTintMode="src_over"
+        android:layout_below="@+id/tvFeaturesLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/btnPossibleMatches" />
 
     <Button
         android:layout_width="wrap_content"
@@ -71,8 +65,8 @@
         android:text="Possible Matches"
         android:id="@+id/btnPossibleMatches"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/feature_scroll"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/viewReportsFeatureRecycler" />
 
     <TextView
         android:layout_width="wrap_content"
