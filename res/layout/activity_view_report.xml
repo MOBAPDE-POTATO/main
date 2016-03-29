@@ -79,7 +79,7 @@
             android:text="item name"
             android:id="@+id/tvItemName"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_toEndOf="@+id/tvItemNameLabel" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:text="place lost"
             android:id="@+id/tvPlaceLost"
             android:layout_above="@+id/tvDateLostLabel"
-            android:layout_toEndOf="@+id/tvItemNameLabel" />
+            android:layout_toEndOf="@+id/tvPlaceLostLabel" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:text="date lost"
             android:id="@+id/tvDateLost"
             android:layout_above="@+id/tvFeaturesLabel"
-            android:layout_toEndOf="@+id/tvPlaceLostLabel" />
+            android:layout_toEndOf="@+id/tvDateLostLabel" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -116,6 +116,6 @@
             android:text="item type"
             android:id="@+id/tvItemType"
             android:layout_below="@+id/tvDateLost"
-            android:layout_alignStart="@+id/tvPlaceLost" />
+            android:layout_toEndOf="@+id/tvItemTypeLabel"/>
     </RelativeLayout>
 </LinearLayout>
