@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.mikogarcia.findit.R;
+import com.example.mikogarcia.findit.model.Account;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -78,7 +79,10 @@ public class RegistrationIntentService extends IntentService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        pref.edit()
+                .putString(Account.REGISTER_ID, token);
     }
 
     /**

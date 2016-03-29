@@ -1,9 +1,14 @@
 package com.example.mikogarcia.findit;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mikogarcia.findit.gcm.QuickstartPreferences;
+import com.example.mikogarcia.findit.gcm.RegistrationIntentService;
 import com.example.mikogarcia.findit.model.Account;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,6 +39,8 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "RegisterActivity";
     public static final String REGISTER_URL = "register.php";
 
     private EditText etFirstName;
@@ -38,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etPassword;
     private EditText etConfirmPassword;
     private Button bRegister;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,15 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = (EditText)findViewById(R.id.etPassword);
         etConfirmPassword = (EditText)findViewById(R.id.etConfirmPassword);
         bRegister = (Button)findViewById(R.id.bRegister);
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+            }
+        };
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,6 +83,25 @@ public class RegisterActivity extends AppCompatActivity {
                 attemptRegister();
             }
         });
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
     }
 
     public void attemptRegister() {
@@ -168,6 +208,29 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+
     class RegisterHelper extends AsyncTask<String, Void, String> {
         ProgressDialog progressDialog;
 
@@ -183,10 +246,13 @@ public class RegisterActivity extends AppCompatActivity {
             String lname = params[1];
             String email = params[2];
             String pass = params[3];
+            String gcm_id = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                                .getString(Account.REGISTER_ID, null);
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 RequestBody requestBody = new FormBody.Builder()
+                        .add(Account.REGISTER_ID, gcm_id)
                         .add(Account.COLUMN_FNAME, fname)
                         .add(Account.COLUMN_LNAME, lname)
                         .add(Account.COLUMN_EMAIL, email)

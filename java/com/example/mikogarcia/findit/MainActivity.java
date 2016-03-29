@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.mikogarcia.findit.model.Account;
 import com.example.mikogarcia.findit.model.Report;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.json.JSONArray;
 import org.json.JSONException;
