@@ -14,17 +14,16 @@ import java.util.ArrayList;
 /**
  * Created by Daniel on 3/13/2016.
  */
-public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureHolder>{
-
+public class EditFeatureAdapter extends RecyclerView.Adapter<EditFeatureAdapter.FeatureHolder>{
 
     private ArrayList<Feature> features;
     private OnItemClickListener mOnItemClickListener;
 
-    public FeatureAdapter(ArrayList<Feature> features) {
+    public EditFeatureAdapter(ArrayList<Feature> features) {
         this.features = features;
     }
 
-    public FeatureAdapter() {
+    public EditFeatureAdapter() {
         this.features = new ArrayList<>();
     }
 

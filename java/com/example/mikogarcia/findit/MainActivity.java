@@ -44,7 +44,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
 //    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
-    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";
+    public static final String SERVER_IP = "http://192.168.1.103/FindIT-Web-Service/";
     public static final String ERROR_TAG = "ERROR: ";
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_ADD_REPORT = 2;
 
     public final static String SP_ACCOUNT_JSON_KEY = "accJson";
+    public final static String REPORT_JSON_KEY = "reportJSON";
 
     public final static String KEY_ITEM_NAME = "item_name";
     public final static String KEY_PLACE_LOST = "place_lost";
@@ -94,15 +95,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Report report) {
                 // TODO: 3/8/2016 OPEN VIEW REPORT
+                try {
+                    String json = report.toJSONString();
 
-        
+                    Log.i("JSON", json);
+
+                    Intent i = new Intent();
+
+                    i.setClass(getBaseContext(), ViewReportActivity.class);
+                    i.putExtra(REPORT_JSON_KEY, json);
+
+                    startActivity(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         reportsList.setAdapter(adapter);
         reportsList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
-//        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+//      PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
         if(json != null){
@@ -144,16 +157,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadContent(String json) throws JSONException {
-        JSONArray j_rep = new JSONObject(json).getJSONArray(Report.TABLE_NAME);
+        JSONObject obj = new JSONObject(json);
         ArrayList<Report> reports = new ArrayList<>();
 
-        for(int i = 0; i < j_rep.length(); i++) {
-            Report report = new Report(j_rep.getJSONObject(i));
+        try {
+            JSONArray j_rep = obj.getJSONArray(Report.TABLE_NAME);
 
-            reports.add(report);
+            for (int i = 0; i < j_rep.length(); i++) {
+                Report report = new Report(j_rep.getJSONObject(i));
+
+                reports.add(report);
+            }
+        } catch (JSONException e) {
+            JSONObject rep = obj.getJSONObject(Report.TABLE_NAME);
+
+            reports.add(new Report(rep));
         }
 
-        // TODO: 3/8/2016 SET ADAPTER'S LIST TO reports
         adapter.setReportList(reports);
     }
 

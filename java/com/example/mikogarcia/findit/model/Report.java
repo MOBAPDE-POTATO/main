@@ -1,5 +1,11 @@
 package com.example.mikogarcia.findit.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,7 +99,7 @@ public class Report {
                 this.features.add(new Feature(feat));
             }
         }catch (Exception e) {
-            // This just means walang features ung report
+            // Report has no features
         }
 
         setReportDateString(date);
@@ -117,7 +123,6 @@ public class Report {
 
         this.formalDate = months[month] + " " + day + ", " + year;
     }
-
 
     public int getId() {
         return id;
@@ -192,4 +197,25 @@ public class Report {
     }
 
     public void deleteFeature(Feature feature) { this.features.remove(feature); }
+
+    public String toJSONString() throws JSONException {
+        JSONObject json = new JSONObject();
+
+        JSONArray featArr = new JSONArray();
+        for (Feature f : features) {
+            featArr.put(new JSONObject(f.toJSONString()));
+        }
+
+        json.put(COLUMN_ID, id);
+        json.put(COLUMN_ITEM_NAME, itemName);
+        json.put(COLUMN_REPORT_PLACE, place);
+        json.put(COLUMN_REPORT_DATE, date.toString());
+        json.put(COLUMN_REPORT_TYPE, reportType);
+        json.put(COLUMN_ITEM_TYPE, itemType);
+        json.put(COLUMN_LOG_DATE, logDate.toString());
+        json.put(COLUMN_CLAIMED, claimed ? 1:0);
+        json.put(Feature.TABLE_NAME, featArr);
+
+        return json.toString();
+    }
 }
