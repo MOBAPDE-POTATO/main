@@ -69,6 +69,11 @@ public class RegisterActivity extends AppCompatActivity {
                         PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
                         .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    Toast.makeText(getBaseContext(), "GCM-SENT", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "GCM-ERROR", Toast.LENGTH_LONG).show();
+                }
             }
         };
 
@@ -166,7 +171,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(String fname, String lname, String email, String pass) {
-        new RegisterHelper().execute(fname, lname, email, pass);
+        String gcm = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                .getString(Account.REGISTER_ID, null);
+
+        if(gcm == null) {
+            Toast.makeText(getBaseContext(), "No GCM ID Registered", Toast.LENGTH_LONG).show();
+        } else {
+            new RegisterHelper().execute(fname, lname, email, pass, gcm);
+        }
     }
     private boolean isEmpty(String name) {
         if (name.length() > 0) {
@@ -246,8 +258,7 @@ public class RegisterActivity extends AppCompatActivity {
             String lname = params[1];
             String email = params[2];
             String pass = params[3];
-            String gcm_id = PreferenceManager.getDefaultSharedPreferences(getBaseContext())
-                                .getString(Account.REGISTER_ID, null);
+            String gcm_id = params[4];
 
             try {
                 OkHttpClient client = new OkHttpClient();

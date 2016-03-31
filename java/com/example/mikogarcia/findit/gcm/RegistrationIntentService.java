@@ -82,7 +82,8 @@ public class RegistrationIntentService extends IntentService {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         pref.edit()
-                .putString(Account.REGISTER_ID, token);
+                .putString(Account.REGISTER_ID, token)
+                .commit();
     }
 
     /**
