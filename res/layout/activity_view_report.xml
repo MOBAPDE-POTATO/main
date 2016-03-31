@@ -6,8 +6,7 @@
     tools:context="com.example.mikogarcia.findit.ViewReportActivity"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

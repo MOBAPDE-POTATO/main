@@ -149,12 +149,7 @@ public class AddReportActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        return true;
-    }
 
     public void onAddFeature(String description) {
         featureAdapter.addFeature(new Feature(temp_id, description));

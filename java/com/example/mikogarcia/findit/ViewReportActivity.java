@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ViewReportActivity extends AppCompatActivity {
+public class ViewReportActivity extends ToolbarActivity {
     TextView tvItemName;
     TextView tvPlaceLost;
     TextView tvDateLost;
@@ -34,7 +34,7 @@ public class ViewReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_report);
+        changeContentView(R.layout.activity_view_report);
 
         String json = getIntent().getExtras().getString(MainActivity.REPORT_JSON_KEY);
         try {
@@ -43,10 +43,6 @@ public class ViewReportActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("FindIT");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().
 
         tvItemName = (TextView)findViewById(R.id.tvItemName);
@@ -86,19 +82,13 @@ public class ViewReportActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home: finish(); return true;
-            default: return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
 }
