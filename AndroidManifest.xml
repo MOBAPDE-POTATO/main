@@ -45,6 +45,8 @@
         <service
             android:name=".gcm.RegistrationIntentService"
             android:exported="false"></service>
+
+        <activity android:name=".ToolbarActivity"></activity>
     </application>
 
 </manifest>

@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ViewMatchActivity extends AppCompatActivity {
+public class ViewMatchActivity extends ToolbarActivity {
     TextView tvItemName;
     TextView tvPlaceLost;
     TextView tvDateLost;
@@ -42,10 +42,7 @@ public class ViewMatchActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Match Item");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvItemName = (TextView)findViewById(R.id.tvItemName);
         tvPlaceLost = (TextView)findViewById(R.id.tvPlaceLost);
@@ -77,16 +74,11 @@ public class ViewMatchActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home: finish(); return true;
-            default: return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
 }

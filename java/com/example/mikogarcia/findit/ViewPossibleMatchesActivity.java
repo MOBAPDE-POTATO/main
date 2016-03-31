@@ -29,7 +29,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class ViewPossibleMatchesActivity extends AppCompatActivity {
+public class ViewPossibleMatchesActivity extends ToolbarActivity {
 
     public static final String GET_MATCHES_URL = "possibleMatches.php";
 
@@ -39,12 +39,9 @@ public class ViewPossibleMatchesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_possible_matches);
+        changeContentView(R.layout.activity_view_possible_matches);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Possible Matches");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         int id = getIntent().getExtras().getInt(Report.COLUMN_ID);
 
@@ -77,20 +74,6 @@ public class ViewPossibleMatchesActivity extends AppCompatActivity {
         new PossibleMatchHelper().execute(id);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home: finish(); return true;
-            default: return super.onOptionsItemSelected(item);
-        }
-    }
 
     private void loadContent(String json) throws JSONException {
         JSONObject obj = new JSONObject(json);
@@ -173,5 +156,14 @@ public class ViewPossibleMatchesActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

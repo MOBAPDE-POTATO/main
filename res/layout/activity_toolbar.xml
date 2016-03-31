@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.mikogarcia.findit.ViewPossibleMatchesActivity">
+    tools:context="com.example.mikogarcia.findit.model.ToolbarActivity">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
 
-
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/matchesRecycler"
-        android:padding="16dp">
-    </android.support.v7.widget.RecyclerView>
+        android:id="@+id/content">
 
+
+    </LinearLayout>
 
 </LinearLayout>
