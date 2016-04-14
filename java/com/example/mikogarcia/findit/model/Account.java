@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class Account {
 
     public static final String TABLE_NAME = "accounts";
+    public static final String REGISTER_ID = "gcm_id";
     public static final String COLUMN_ID = "acc_id";
     public static final String COLUMN_FNAME = "f_name";
     public static final String COLUMN_LNAME = "l_name";

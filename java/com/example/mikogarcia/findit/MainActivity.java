@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.example.mikogarcia.findit.model.Account;
 import com.example.mikogarcia.findit.model.Report;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,7 +131,9 @@ public class MainActivity extends ToolbarActivity {
 
         reportsList.setAdapter(adapter);
         reportsList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
        /* SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
         if(json != null){
             try {
