@@ -1,10 +1,13 @@
 package com.example.mikogarcia.findit;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,10 +47,12 @@ import okhttp3.Response;
 
 public class MainActivity extends ToolbarActivity {
 
+
 //    public static final String SERVER_IP = "http://112.206.29.72/FindIT-Web-Service/";  // MAKE SURE TO CHANGE THIS DEPENDING ON THE IP OF THE SERVER HOST
-    public static final String SERVER_IP = "http://192.168.1.102/FindIT-Web-Service/";
+    public static final String SERVER_IP = "http://192.168.254.105/FindIT-Web-Service/";
     public static final String ERROR_TAG = "ERROR: ";
     public static final String GET_REPORTS_URL = "getAccountLostReports.php";
+
 
     public final static int REQUEST_CODE_LOGIN = 0;
     public final static int REQUEST_CODE_REGISTER = 1;
@@ -64,8 +69,6 @@ public class MainActivity extends ToolbarActivity {
     public final static String KEY_FEATURES = "features";
 
     private RecyclerView reportsList;
-    private Button btnAddReport;
-
     private Account account;
     private ReportAdapter adapter;
 
@@ -76,13 +79,23 @@ public class MainActivity extends ToolbarActivity {
         setDefaultDisplayHomeAsUpEnabled(false);
         changeContentView(R.layout.activity_main);
 
+        //Button logoutButton = (Button) findViewById(R.id.logout);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+
+        });
 
 
         reportsList = (RecyclerView) findViewById(R.id.report_list);
-        btnAddReport = (Button)findViewById(R.id.add_report_btn);
+
         adapter = new ReportAdapter();
 
-        btnAddReport.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), AddReportActivity.class);
@@ -116,8 +129,25 @@ public class MainActivity extends ToolbarActivity {
 
         reportsList.setAdapter(adapter);
         reportsList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-
+       /* SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
+        if(json != null){
+            try {
+                this.account = new Account(new JSONObject(json));
+                new ViewReportHelper().execute();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
+        }*/
 //      PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
         if(json != null){
@@ -130,18 +160,7 @@ public class MainActivity extends ToolbarActivity {
         } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class), REQUEST_CODE_LOGIN);
         }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -176,9 +195,13 @@ public class MainActivity extends ToolbarActivity {
                 reports.add(report);
             }
         } catch (JSONException e) {
-            JSONObject rep = obj.getJSONObject(Report.TABLE_NAME);
+            try {
+                JSONObject rep = obj.getJSONObject(Report.TABLE_NAME);
 
-            reports.add(new Report(rep));
+                reports.add(new Report(rep));
+            }catch(JSONException e1){
+                //nothing
+            }
         }
 
         adapter.setReportList(reports);

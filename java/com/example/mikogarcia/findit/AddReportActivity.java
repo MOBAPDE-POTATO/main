@@ -98,6 +98,11 @@ public class AddReportActivity extends AppCompatActivity {
              */
             public void onItemClick(int id) {
                 // TODO: 3/16/2016 EDIT FEATURE WHEN I CLICK ON IT
+                //AddFeatureDialog
+                Bundle args = new Bundle();
+                args.putInt("id", id);
+                //f.setArguments(args);
+
 
 
             }

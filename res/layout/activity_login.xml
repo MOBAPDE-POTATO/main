@@ -81,7 +81,8 @@
                 android:id="@+id/createAccount"
                 android:layout_gravity="center_horizontal"
                 android:onClick="onClick"
-                android:clickable="true" />
+                android:clickable="true"
+                android:textColor="#84000000" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

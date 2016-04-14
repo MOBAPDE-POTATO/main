@@ -3,39 +3,58 @@ package com.example.mikogarcia.findit;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.mikogarcia.findit.model.Feature;
 
 import java.util.ArrayList;
 
 /**
- * Created by Daniel on 3/14/2016.
+ * Created by Daniel on 4/14/2016.
  */
-public class AddFeatureDialog extends DialogFragment{
+public class EditFeatureDialog extends DialogFragment{
+    int mNum;
     View view;
+    int mStackLevel = 0;
 
-    public AddFeatureDialog(){
+    /**
+     * Create a new instance of MyDialogFragment, providing "num"
+     * as an argument.
+     */
+    static EditFeatureDialog newInstance(int id) {
+        EditFeatureDialog f = new EditFeatureDialog();
 
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putInt("id", id);
+        f.setArguments(args);
+
+        return f;
     }
 
-
-
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_feature, null);
+        mNum = getArguments().getInt("id");
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle("Add Description")
+                .setTitle("Edit Description")
                 .setView(view)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EditText etFeature = (EditText) view.findViewById(R.id.etFeature);
+                        //etFeature.setHint(getArguments().getString());
                         ArrayList<Feature> features = ((AddReportActivity) getActivity()).getFeatures();
                         boolean checkFeature = true;
                         for(int i = 0; i < features.size();i++) {
@@ -57,7 +76,7 @@ public class AddFeatureDialog extends DialogFragment{
                     }
                 });
 
-        return  alertDialogBuilder.create();
+
     }
     public void onStart() {
         super.onStart();
@@ -92,10 +111,29 @@ public class AddFeatureDialog extends DialogFragment{
             {
                 @Override
                 public void onClick(View v) {
-                        d.dismiss();
+                    d.dismiss();
                 }
             });
         }
+    }
+
+    void showDialog() {
+
+        mStackLevel++;
+
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = EditFeatureDialog.newInstance(mStackLevel);
+        newFragment.show(ft, "dialog");
     }
 
     public boolean isEmpty(String desc){
@@ -105,6 +143,4 @@ public class AddFeatureDialog extends DialogFragment{
             return true;
         }
     }
-
-
 }

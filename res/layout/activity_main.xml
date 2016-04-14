@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mikogarcia.findit.MainActivity">
+    tools:context="com.example.mikogarcia.findit.MainActivity"
+    >
+
 
 
     <android.support.v7.widget.RecyclerView
@@ -14,17 +16,13 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_above="@+id/add_report_btn"
         android:layout_below="@+id/toolbar" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="New Lost Report"
-        android:id="@+id/add_report_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="35dp" />
-
-</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_input_add" />
+</android.support.design.widget.CoordinatorLayout>
