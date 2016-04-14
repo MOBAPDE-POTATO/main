@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.mikogarcia.findit.AccountSettings">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/include" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="First Name: "
+        android:id="@+id/firstNameLabel"
+        android:layout_below="@+id/include"
+        android:layout_alignStart="@+id/emailLabel"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="first name"
+        android:id="@+id/firstName"
+        android:layout_alignTop="@+id/firstNameLabel"
+        android:layout_toEndOf="@+id/firstNameLabel" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Last Name:"
+        android:id="@+id/lastNameLabel"
+        android:layout_marginTop="57dp"
+        android:layout_below="@+id/firstNameLabel"
+        android:layout_toStartOf="@+id/textView"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="last name"
+        android:id="@+id/textView"
+        android:layout_above="@+id/emailLabel"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="e-Mail: "
+        android:id="@+id/emailLabel"
+        android:layout_marginTop="68dp"
+        android:layout_below="@+id/lastNameLabel"
+        android:layout_alignStart="@+id/lastNameLabel"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="email"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/emailLabel"
+        android:layout_toEndOf="@+id/emailLabel" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        android:id="@+id/button"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/emailLabel"
+        android:layout_alignStart="@+id/emailLabel" />
+</RelativeLayout>

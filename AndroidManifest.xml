@@ -46,7 +46,12 @@
             android:name=".gcm.RegistrationIntentService"
             android:exported="false"></service>
 
-        <activity android:name=".ToolbarActivity"></activity>
+        <activity android:name=".ToolbarActivity" />
+        <activity
+            android:name=".model.dummy"
+            android:label="@string/title_activity_dummy"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AccountSettings"></activity>
     </application>
 
 </manifest>

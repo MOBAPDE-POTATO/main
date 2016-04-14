@@ -101,6 +101,14 @@ public class EditFeatureAdapter extends RecyclerView.Adapter<EditFeatureAdapter.
         return null;
     }
 
+    public void setFeature(int id, String newFeat) {
+        for(Feature f: features) {
+            if(f.getId() == id) {
+                f.setFeat(newFeat);
+            }
+        }
+
+    }
     public ArrayList<Feature> getFeatures(){
         return features;
     }
