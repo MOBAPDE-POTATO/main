@@ -133,7 +133,7 @@ public class MainActivity extends ToolbarActivity {
         reportsList.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
        /* SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
->>>>>>> refs/remotes/origin/master
+
         String json = sharedPreferences.getString(SP_ACCOUNT_JSON_KEY, null);
         if(json != null){
             try {
